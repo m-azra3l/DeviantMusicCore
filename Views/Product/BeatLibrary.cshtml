@@ -1,0 +1,120 @@
+@model PaginatedList<DeviantMusicCore.Models.Beat>
+
+@{
+    ViewData["Title"] = "Beat Library";
+}
+
+<div class="wrapper">
+    <div class="row">
+        <div class="list-heading col-6">
+            <h2 class="mb-0">Beat Library</h2>
+        </div>
+        <div class="col-6 text-right">
+                <a asp-action="TopFreeBeats">Top Free Beats</a>
+        </div>
+        <br/>
+    </div>
+    <form class="form-inline-md ml-3" asp-action="BeatLibrary" method="get">
+            <div class="col-md-12">
+                <div class="input-group input-group-md">
+                    <input style="text-align: center;" class="form-control form-control-navbar" type="text" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Search Beats" aria-label="Search">
+                    <div class="input-group-append">
+                        <button title="Search" class="btn btn-outline-secondary rounded-0" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <a title="Clear" class="btn btn-outline-secondary rounded-0" asp-action="BeatLibrary"><i class="fas fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+            <br/>
+    </form>
+    <div class="row">
+        <div class="col-6">
+            <select name="genre" asp-items="ViewBag.Genre" onchange="this.form.submit();" class="form-control text-center"><option value="">Genre</option></select>
+        </div>
+        <div class="col-6">
+            <select name="license" asp-items="ViewBag.ExtrasLicense" onchange="this.form.submit();" class="form-control text-center" id="license"><option value="">License</option></select>
+        </div>
+        <br/>
+    </div>
+    <div class="wrapper d-flex flex-wrap align-items-center justify-content-between">
+        @foreach(var product in Model)
+        {
+            <div class="product card rounded-0">
+                @if(product.Image!=null)
+                {
+                    <a asp-controller="Product" asp-action="BeatDetail" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(product.Image))" alt="@product.Title"></a>
+                }
+                else
+                {
+                    <a asp-controller="Product" asp-action="BeatDetail" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@product.Title"></a>
+                }
+                <div class="card-body p-0">
+                    @if(product.ProducerId != null)
+                    {
+                        <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Product" asp-action="BeatDetail" asp-route-id="@product.Url" class="text-decoration-none">@product.Producer.StageName - @product.Title</a></h6>
+                    }
+                    else
+                    {
+                        <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Product" asp-action="BeatDetail" asp-route-id="@product.Url" class="text-decoration-none">@product.ExternalProducer - @product.Title</a></h6>
+                    }
+                    <div class="card-text bg-light">
+                        @if(product.ExtrasLicense.License == "Paid")
+                        {
+                            @String.Format("{0:F}", product.Price)
+                        }
+                        else
+                        {
+                            <div class="border-top p-1 text-center">@product.ExtrasLicense.License</div>
+                        }
+                    </div>
+                </div>
+                <div class="product-tag">
+                    @product.Genre.Name
+                </div>
+            </div>
+        }
+    </div>
+    <div class="pagination-container my-5">
+        <ul class="pagination d-flex justify-content-center">
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                var firstDisabled = !Model.HasFirstPage ? "disabled" : "";
+                var lastDisabled = !Model.HasLastPage ? "disabled" : "";
+            }
+
+            <a asp-action="BeatLibrary"
+            asp-route-pageNumber="1"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="First Page"
+            class="btn btn-outline-secondary rounded-0 @firstDisabled">
+                <i class="fas fa-angle-double-left fa-lg"></i>
+            </a>
+
+            <a asp-action="BeatLibrary"
+            asp-route-pageNumber="@(Model.PageIndex - 1)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Prev Page"
+            class="btn btn-outline-secondary rounded-0 @prevDisabled">
+                <i class="fas fa-angle-left fa-lg"></i>
+            </a>
+
+            <a asp-action="BeatLibrary"
+            asp-route-pageNumber="@(Model.PageIndex + 1)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Next Page"
+            class="btn btn-outline-secondary rounded-0 @nextDisabled">
+                <i class="fas fa-angle-right fa-lg"></i>
+            </a>
+
+            <a asp-action="BeatLibrary"
+            asp-route-pageNumber="@(Model.TotalPages)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Last Page"
+            class="btn btn-outline-secondary rounded-0 @lastDisabled">
+                <i class="fas fa-angle-double-right fa-lg"></i>
+            </a>
+        </ul>
+    </div>
+</div>

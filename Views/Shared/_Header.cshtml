@@ -1,0 +1,15 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+ <header>
+             <nav id="navigationBar" class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3 sticky-top">
+               <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Images/deviant.png"></a>                
+                <ul class="nav navbar-right">
+                    <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Sign Out</a></li>
+                </ul>
+                <hr/>
+            </nav>
+ </header>
+           

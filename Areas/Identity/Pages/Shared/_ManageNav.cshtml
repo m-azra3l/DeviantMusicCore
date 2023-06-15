@@ -1,0 +1,39 @@
+@using DeviantMusicCore.Models
+
+@inject SignInManager<ApplicationUser> SignInManager 
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<button href="#" class="dropdown-btn btn-default" style="text-align: center;">Admin Controls</button>
+<div class="dropdown-container" style="text-align: center;">
+    <ul class="nav nav-pills flex column" style="text-align: center;">
+        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Product</a></li>
+    </ul>
+</div>
+<button href="#" class="dropdown-btn btn-default" style="text-align: center;">Master Catalog</button>
+<div class="dropdown-container" style="text-align: center;">
+   <ul class="nav nav-pills flex column" style="text-align: center;">   
+    <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="BannerAdsList">AdsB</a></li>
+    <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="SquareAdsList">AdsPB</a></li>                                           
+    <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="CarouselList">Carousel</a></li>
+    <li class="nav-item"><a class="nav-link" href="#">Download</a></li>
+    <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="GenreList">Genre</a></li>
+    <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="LicenseList">Product License</a><l/>
+    <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="TagList">Product Type</a></li>
+    <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="SMList">Social Tag</a></li>
+    <li class="nav-item"><a class="nav-link"  asp-controller="Admin" asp-action="Index">Admin</a></li>
+    <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+    <li class="nav-item"><a class="nav-link" href="#">Product</a></li>
+   </ul> 
+</div>
+<button href="#" class="dropdown-btn btn-default" style="text-align: center;">Master Controls</button>
+<div class="dropdown-container">
+    <ul class="nav nav-pills flex-column" style="text-align: center;">
+        <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="UsersList">Users</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="UserRoles">Roles</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">Log</a></li>  
+    </ul>
+</div>
+

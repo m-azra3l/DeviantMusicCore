@@ -1,0 +1,241 @@
+﻿@using DeviantMusicCore.Views.Shared.Components.BannerAdList;
+@using DeviantMusicCore.Views.Shared.Components.BoxAdList;
+@using DeviantMusicCore.Views.Shared.Components.SocialLinks;
+@using Microsoft.AspNetCore.Identity;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Deviant Music</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <style>
+         .navbar-right{
+            position: absolute;
+            right: 3px;
+        }
+
+        #navigationBar{overflow: hidden;}
+        .sticky{position: fixed; top:0;width:100%;}
+        .sticky + .content {padding-top: 10px;}
+
+        #myBtn {
+            display: block; /* Hidden by default */
+            position: fixed; /* Fixed/sticky position */
+            bottom: 0;/* Place the button at the bottom of the page */
+            right: 0; /* Place the button 30px from the right */
+            z-index: 99;/* Make sure it does not overlap */
+            border:none; /* Remove borders */
+            outline: none; /* Removeoutline */
+            background-color: transparent; /* Set a background color */
+            color: #189ddb;/* Text color */
+            cursor: pointer; /* Add a mouse pointer on hover */
+            padding:10px;/* Some padding */
+            border-radius: 10px; /* Rounded corners */
+            font-size:20px; /* Increase font size */
+            width: 50px;
+        }
+
+        #myBtn:hover {
+        background-color: #189ddb; 
+        color: white;/* Text color */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3 sticky-top" id="navigationBar">
+            <div class="container">
+                <a class="navbar-brand" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Images/deviant.png" alt="DeviantMusic"></a>
+                <div id="myuser">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a id="manage1" class="brand-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Dashboard">
+                        @if (UserManager.GetUserAsync(User).Result.UserImage != null)
+                        {
+                            <img class="img-profile rounded-circle" style="object-fit: cover; width: 30px; height: 30px;" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.UserImage))">
+                        }
+
+                        else
+                        {
+                            <img class="img-profile rounded-circle" style="object-fit: cover; width: 30px; height: 30px;" src="~/Images/placeholder.png">
+                        }</a>
+                    }
+                </div>
+                <div id="signout" class="navbar-nav nav-item">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <form id="logoutForm1" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout1" type="submit" title="Sign Out" class="nav-link btn btn-link"><i class="fas fa-sign-out-alt fa-lg"></i></button>
+                        </form>
+                    }
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" style="margin-right: 20px;" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <button type="button" title="Search" class="buttonsearch" id="buttonsearch"><i class="fas fa-search fa-md openclosesearch"></i><i class="fas fa-times fa-md openclosesearch" style="display:none"></i></button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="width: auto;">
+                    <ul class="navbar-nav flex-grow-1 form-inline">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Library" asp-action="Index">Library</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        </li>                        
+                    </ul>
+                    <partial id="login1" name="_LoginPartial"/>
+                    <form id="search" class="form-inline-sm ml-3" asp-controller="Library" asp-action="Index" method="get">
+                        <div class="input-group input-group-sm">
+                            <input style="text-align: center;" class="form-control form-control-navbar" type="text" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Search Library" aria-label="Search">
+                            <div class="input-group-append">
+                                <button title="Search" class="btn btn-outline-secondary rounded-0" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>                                          
+                </div>
+                <div class="container-fluid" id="formsearch" style="text-align:center">
+                    <div class="row">
+                        <div class="col-md-12 offset-md-2">
+                            <div class="container searchbardiv">
+                                <form class="form-inline-sm ml-3" asp-controller="Library" asp-action="Index" method="get">
+                                    <div class="input-group input-group-sm">
+                                        <input style="text-align: center;" class="form-control form-control-navbar" id="searchbox" type="text" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Search Library" aria-label="Search">
+                                        <div class="input-group-append">
+                                            <button title="Search" class="btn btn-outline-secondary rounded-0" type="submit">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>       
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <button onclick="topFunction()" id="myBtn" title="Top"><i class="fas fa-angle-up" style="size: 7x;"></i></button>
+    <div class="container" style="margin-top: 100px;min-height: 100vh;" >
+        @(await Component.InvokeAsync("BannerAdList"))
+       <div class="row"> 
+           <div class="col-lg-9">
+               <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
+            <div class="col-lg-3">
+               <div id="sidebar" class="bg-light sidebar">
+                    <div class="row no-gutters horizontal-on-break">
+                        <div class="sidebar-col">
+                            @(await Component.InvokeAsync("BoxAdList"))           
+                        </div>
+                        <div class="sidebar-col">
+                            <div class="bg-light wrapper">
+                                <div class="card border-0 rounded-0 h-100">
+                                    <div class="card-header border-0 rounded-0 bg-secondary font-weight-bold text-center text-white">Recent Tweets</div>
+                                        <div id="recent-tweets" class="card-body bg-light rounded-0 p-1">
+                                            <a href="#" class="d-block mb-2 text-decoration-none">A link</a>
+                                            <a href="#" class="d-block mb-2 text-decoration-none">Another link</a>
+                                            <a href="#" class="d-block mb-2 text-decoration-none">Yet another link</a>
+                                            <a href="#" class="d-block mb-2 text-decoration-none">Yet another link</a>
+                                            <a href="#" class="d-block mb-2 text-decoration-none">Yet another link</a>
+                                            <a href="#" class="d-block mb-2 text-decoration-none">Yet another link</a>
+                                            <a href="#" class="d-block mb-2 text-decoration-none">Yet another link</a>
+                                            <a href="#" class="d-block text-decoration-none">Finally</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <div id="quick-links-container" class="bg-light">
+                                <div class="card border-0 rounded-0">
+                                    <div class="card-header border-0 rounded-0 bg-secondary font-weight-bold text-center text-white">Quick Links</div>
+                                    <div class="card-body bg-light p-1">
+                                        <div class="tags-widget">
+                                            <div style="text-align: center;">
+                                                <br/>
+                                                <a a asp-controller="Home" asp-action="Disclaimer">Disclaimer</a>
+                                                <a a asp-controller="Home" asp-action="Pricing">Pricing and Services</a>
+                                                <a asp-controller="Home" asp-action="Help">Help and FAQ</a>
+                                                <a asp-controller="Home" asp-action="Terms">T & C</a>
+                                                <a asp-controller="Artiste" asp-action="Index">Artistes</a>
+                                                <a asp-controller="Team" asp-action="Index">Team</a>
+                                                <a asp-controller="Home" asp-action="AboutUs">Deviant Music</a>
+                                                <a asp-area="Identity" asp-page="/Account/Subscribe"> Subscribe</a>
+                                                <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                                                <a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+           <center>&copy; @DateTime.Now.Year - Deviant Music<br/>@(await Component.InvokeAsync("SocialLinks"))</center>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/tinymce/tinymce.min.js"></script>  
+    <script src="~/js/script.js"></script>
+    <script src="~/js/utilities.js"></script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-619a319c0a73e634"></script>   
+    <script>
+        tinymce.init({selector:'textarea'});
+
+        window.onscroll = function(){myFunction()};
+
+        // When the user clicks on thebutton, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+
+        var navbar = document.getElementById("navigationBar");
+        var sticky = navbar.offsetTop;
+
+        function myFunction(){
+            if(window.pageYOffset >= sticky){
+                navbar.classList.add("sticky")
+            }
+            else{
+                navbar.classList.remove("sticky");
+            }
+        }
+        $('#buttonsearch').click(function () {
+            $('#formsearch').slideToggle("fast", function () {
+                $('#content').toggleClass("moremargin");
+            });
+            $('#searchbox').focus()
+            $('.openclosesearch').toggle();
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,125 @@
+@model DeviantMusicCore.Models.Beat
+
+@{
+    ViewData["Title"] = "Create Beat";
+    Layout = "_AdminLayout";
+}
+<h3>Create Beat</h3>
+<form method="post" enctype="multipart/form-data" class="container-fluid" asp-action="CreateBeat">
+    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p>Select Producer Type<br/></p>
+        </div>
+        <div class="col-md-12">
+            <label>Producer Type</label>
+            <select class="form-control text-center" id="producertype">
+                <option value="selecttype">-- Select Type --</option>
+                <option value="Indie">Independent Producer</option>
+                <option value="Managed">Managed Producer</option>
+            </select>
+            <br/>
+        </div> 
+    </div>
+    <div class="form-group row" id="mainproduct" style="display: none;">   
+        <div class="col-md-12" id="producerbinder" style="display: none;">
+            <label>Producer (For Managed Producers Only)</label>
+            <select asp-for="ProducerId" asp-items="ViewBag.ProducerId" class="form-control text-center"><option value="">-- Select Producer --</option></select>
+            <br/>
+        </div>   
+        <div class="col-md-12">
+            <label>License Binder</label>
+            <select asp-for="ExtrasLicenseId" asp-items="ViewBag.LicenseId" class="form-control text-center" id="license"><option value="">-- Select License --</option></select>
+            <span asp-validation-for="ExtrasLicenseId" class="text-danger"></span>
+            <br/>
+        </div>         
+        <div class="col-md-12">
+            <label>Genre Binder</label>
+            <select asp-for="GenreId" asp-items="ViewBag.GenreId" class="form-control text-center"><option value="">-- Select Genre --</option></select>
+            <br/>
+        </div> 
+        <div class="col-md-12">
+            <label>Title</label>
+            <Input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+            <br/>
+        </div>
+        <div class="col-md-12" id="producer" style="display: none;">
+            <label>Producer Stage Name</label>
+            <Input asp-for="ExternalProducer" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label> Url (Title and replace any space with underscore(" _ "))</label>
+            <Input asp-for="Url" class="form-control" />
+            <span asp-validation-for="Url" class="text-danger"></span>
+            <span asp-validation-for="Url" class="text-danger"></span>
+            <br/>
+            <label asp-for="StreamPlatformUrl"></label>
+            <Input asp-for="StreamPlatformUrl" class="form-control" />
+            <br/>
+            <label>Release Date (Format DD-MM-YYYY)</label>
+            <Input asp-for="ReleaseDate" asp-format="{0:dd/MMM/yyyy}" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12" id="purchase" style="display: none;">
+            <label>Price</label>
+            <Input asp-for="Price" class="form-control" />
+            <br/>
+            <label>Purchase Url (If any)</label>
+            <Input asp-for="PurchaseURL" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Image (less than 512kb)</label>
+            <input type="file" name="ImageFile" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" class="form-control"/>
+            <br/>
+            <label>Description</label>
+            <textarea asp-for="Description" rows="20"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <br />
+            <input type="submit" class="btn btn-success" value="Create" />
+            <a asp-action="BeatList" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script>
+        $(document).ready(function ()
+        {
+            $('#producertype').change(function()
+            {
+                if($(this).val() == 'selecttype')
+                {
+                    $("#mainproduct").hide()
+                    $("#producerbinder").hide()
+                    $("#producer").hide()
+                }
+                if($(this).val() == 'Indie')
+                {
+                    $("#mainproduct").show()
+                    $("#producerbinder").hide()
+                    $("#producer").show()
+                }
+                if($(this).val() == 'Managed')
+                {
+                    $("#mainproduct").show()
+                    $("#producerbinder").show()
+                    $("#producer").hide()
+                }
+            });
+            $("#license").change(function()
+            {
+                if($(this).val() == 1)
+                {
+                    $("#purchase").hide()
+                }
+                if($(this).val() == 2)
+                {
+                    $("#purchase").show()
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,51 @@
+@model DeviantMusicCore.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = @Model.Name;
+}
+<div class="wrapper">
+    <div class="list-heading">
+        <h2 class="mb-0">@Model.Name</h2>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="generic-image-container shadow-sm mb-3 mb-md-0 mx-auto">
+                @if(Model.UserImage != null)
+                {
+                    <img src="data:image/*;base64,@(Convert.ToBase64String(Model.UserImage))" alt="@Model.Name">
+                }
+                else
+                {
+                    <img src="~/Images/placeholder.png" alt="@Model.Name">
+                }
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="generic-details-container">
+                <div class="designation"><span class="font-weight-bold">Designation: </span>@Model.Designation<br/></div>
+                <div class="sm-link"><span class="font-weight-bold"></span> <a href="@Model.SocialUrl">Follow on Social Media</a><br/></div>
+                <h5 class="mt-1">Bio</h5>
+                <div class="bio wrapper">
+                    <markdown normalize-whitespace="false" sanitize-html="false" Markdown="@Model.Bio"/>
+                    <br/>
+                </div>
+                @if(Model.BlogItems.Count > 0 && Model.Softwares.Count == 0)
+                {
+                    <span>Checkout <a href="https://localhost:5001/Blog?searchString=@Model.Name">Articles</a> by me</span>
+                }
+                @if(Model.Softwares.Count > 0 && Model.BlogItems.Count == 0)
+                {
+                    <span>Checkout <a href="https://localhost:5001/Blog?searchString=@Model.Name">Softwares and Codes</a> by me</span>
+                }
+                @if(Model.BlogItems.Count > 0 && Model.Softwares.Count > 0)
+                {
+                    <span>Checkout <a href="https://localhost:5001/Blog?searchString=@Model.Name">Articles</a>, <a href="https://localhost:5001/Blog?searchString=@Model.Name">Softwares and Codes</a> by me</span>
+                }
+                <div class="d-flex justify-content-center">
+                    <div class="addthis_inline_share_toolbox"></div>
+                </div>
+            </div> 
+        </div>         
+    </div>
+    <br/>
+</div>

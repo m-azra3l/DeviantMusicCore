@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewData["Title"] - Deviant Music</title>
+    <partial name="_Styles" />
+    <style>
+            .nav li{
+                display: inline-block;
+            }
+            .navbar-right{
+                position: absolute;
+                right: 10px;
+            }
+            #navigationBar{overflow: hidden;}
+            .sticky{position: fixed; top:0;width:100%;}
+            .sticky + .content {padding-top: 10px;}
+            #myBtn {
+                display: none; /* Hidden by default */
+                position: fixed; /* Fixed/sticky position */
+                bottom: 0;/* Place the button at the bottom of the page */
+                right: 0; 
+                z-index: 99;/* Make sure it does not overlap */
+                border:none; /* Remove borders */
+                outline: none; /* Removeoutline */
+                background-color: transparent; /* Set a background color */
+                color: #189ddb;/* Text color */
+                cursor: pointer; /* Add a mouse pointer on hover */
+                padding:10px;/* Some padding */
+                border-radius: 10px; /* Rounded corners */
+                font-size:20px; /* Increase font size */
+                width: 50px;
+            }
+  
+            #myBtn:hover {
+                background-color: #189ddb; 
+                color: white;/* Text color */
+            }
+        </style>
+</head>
+<body>
+    <button onclick="topFunction()" id="myBtn" title="Top"><i class="fas fa-angle-up" style="size: 7x;"></i></button>
+    <header>
+             <nav id="navigationBar" class="navbar navbar-expand border-bottom box-shadow mb-3 navbar-light sticky-top">
+               <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Images/deviant.png"></a>                
+            </nav>
+    </header>
+    <div class="content-wrapper mrl-zero" id="contentWrapper">
+        <div class="container" style="min-height: 100vh;margin-top: 100px;">
+
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+
+                <div class="col-xl-10 col-lg-12 col-md-9">
+
+                    <div class="card o-hidden border-0 my-5">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row"><div class="col-lg-6 d-none d-lg-block" style=" background: url('/images/placeholder.PNG');background-position: center;background-size: cover;"></div>
+                                
+                                <div class="col-lg-6">
+                                    <div style="padding:10rem 3rem 10rem 3rem !important;">
+                                        @RenderBody()
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 text-secondary">Default Credentials</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col">
+                                    <b>Super Admin : </b> azra3l / azra3l@gmail.com / P@ssword1 / Default
+                                    <b>Admin : </b> admin1 / admin@gmail.com / P@ssword1 / Default
+                                    <b>Member : </b> member1 / member@gmail.com/ P@ssword1 / Default
+                                    <b>User : </b> user1 / user@gmail.com/ P@ssword1 / Default
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="_Footer" />
+    <partial name="_Scripts" />
+    <script>
+           
+            window.onscroll = function(){myFunction();scrollFunction();};
+
+            var navbar = document.getElementById("navigationBar");
+            var sticky = navbar.offsetTop;
+
+            function myFunction(){
+                if(window.pageYOffset >= sticky){
+                    navbar.classList.add("sticky")
+                }
+                else{
+                    navbar.classList.remove("sticky");
+                }
+            }
+            
+            
+            var mybutton = document.getElementById("myBtn");
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 ||document.documentElement.scrollTop > 20) {
+                    mybutton.style.display = "block";
+                } 
+                else {
+                    mybutton.style.display= "none";
+                }
+            }
+
+                // When the user clicks on thebutton, scroll to the top of the document
+                function topFunction() {
+                    document.body.scrollTop = 0; // For Safari
+                    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+                }
+        </script> 
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>

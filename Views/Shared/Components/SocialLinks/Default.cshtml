@@ -1,0 +1,8 @@
+@model IEnumerable<DeviantMusicCore.Models.Social>
+@foreach(var sm in Model)
+{
+    <a href="@sm.Url" title="@sm.SMName" target="_blank"><img class="img-profile rounded-circle" style="object-fit: cover; width: 30px; height: 30px;" src="data:image/*;base64,@(Convert.ToBase64String(sm.SMImage))" alt="@sm.SMName"></a>
+}
+
+
+   

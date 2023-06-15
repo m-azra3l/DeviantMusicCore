@@ -1,0 +1,26 @@
+﻿@using DeviantMusicCore.Views.Shared.Components.ProductList;
+@using DeviantMusicCore.Views.Shared.Components.BlogList;
+@using DeviantMusicCore.Views.Shared.Components.Carousel;
+@using DeviantMusicCore.Views.Shared.Components.BeatList;
+@using DeviantMusicCore.Views.Shared.Components.SoftwareList;
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="wrapper">
+    <div class="wrapper">
+        @(await Component.InvokeAsync("Carousel"))
+    </div>
+    <div class="wrapper">
+        @(await Component.InvokeAsync("ProductList"))
+    </div>
+    <div class="wrapper">
+        @(await Component.InvokeAsync("BeatList"))
+    </div>
+</div>
+<div class="wrapper">
+    @(await Component.InvokeAsync("BlogList"))
+</div>
+<div class="wrapper">
+    @(await Component.InvokeAsync("SoftwareList"))
+</div>

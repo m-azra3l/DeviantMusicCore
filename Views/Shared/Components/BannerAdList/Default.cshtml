@@ -1,0 +1,29 @@
+@model IEnumerable<DeviantMusicCore.Models.AdsB>
+    
+<div id="ad-rotator-carousel-container1" class="wrapper" style="width: auto">
+    <!-- The carousel object -->
+    <div class="carousel slide" data-ride="carousel" data-interval="10000">
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+            @foreach(var file in Model)
+            {
+                <div class="carousel-item @(file == Model.First() ? "active":"")">
+                    <a asp-controller="Home" asp-action="RedirectToAd" asp-route-id="@file.Id" target="_blank"><img src="data:image/*;base64,@(Convert.ToBase64String(file.ImageUrl))" alt="@file.Title"></a>
+                </div>                                
+            }
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function updatehit(Hits)
+        {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '@Url.Action("IncreaseAdBHit","Home")',
+                data: { id: myhit }
+            })
+        }
+    </script>
+}

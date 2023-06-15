@@ -1,0 +1,112 @@
+@using Microsoft.AspNetCore.Identity;
+@using DeviantMusicCore.Logic
+
+@inject UserManager<ApplicationUser> UserManager
+
+@model DeviantMusicCore.Models.Product
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<div class="wrapper">
+    <div class="list-heading">
+        <div class="row">
+            <div class="col-6">
+                <h2 class="mb-0">@Model.Title</h2>
+            </div>
+            <div class="col-6 text-right">
+                @if(User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.Admin))
+                {
+                    @if(UserManager.GetUserAsync(User).Result.UserName == Model.Uploader)
+                    {
+                        <a type="button" class="btn btn-primary" asp-controller="Admin"  asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                    }
+                }
+                else if(User.IsInRole(Roles.Master))
+                {
+                    <a type="button" class="btn btn-primary" asp-controller="Admin"  asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="generic-image-container shadow-sm mb-3 mb-md-0 mx-auto">
+                    @if(Model.ProductImage != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(Model.ProductImage))" alt="@Model.Title">
+                    }
+                    else
+                    {
+                        <img src="~/Images/placeholder.png" alt="@Model.Title">
+                    }
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="generic-details-container">
+                    <div class="artiste-">
+                        @if(Model.ArtisteId != null)
+                        {
+                            <a asp-controller="Artiste" asp-action="Artiste" asp-route-id="@Model.Artiste.UserName"><span class="font-weight-bold">Artiste: @Model.Artiste.StageName</span></a>
+                        }
+                        else
+                        {
+                            <span class="font-weight-bold">Artiste: @Model.ArtisteName</span>
+                        }
+                    </div><br/>
+                    @if(Model.Featuring != null)
+                    {
+                        <div class="featured-artistes"><span class="font-weight-bold">Featured Artiste(s): </span> @Model.Featuring<br/></div>
+                    }
+                    <div class="producer"><span class="font-weight-bold">Producer(s): </span> @Model.Producer<br/></div>
+                    <div class="writer"><span class="font-weight-bold">Writer(s): </span> @Model.Writer<br/></div>
+                    <div class="track-number"><span class="font-weight-bold">Type:</span>@Model.ProductType.Tag</div>
+                    <div class="release-date"><span class="font-weight-bold">Release Date: </span> @Model.ReleaseDate.ToString("dd/MMM/yyyy")<br/></div>
+                    <div class="upload-date"><span class="font-weight-bold">Upload Date: </span> @Model.UploadDate.ToString("dd/MMM/yyyy")<br/></div>
+                    <div class="uploader"><span class="font-weight-bold">Uploaded By: </span> <a asp-controller="Team" asp-action="Member" asp-route-id="@Model.Uploader">@Model.Uploader</a><br/></div>
+                    @if(Model.AlbumTrack == true)
+                    {
+                        <div class="track-number"><span class="font-weight-bold">Album: </span> <a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@Model.Url">@Model.AlbumorEP.Title</a><br/></div>
+                        <div class="track-number"><span class="font-weight-bold">Track Number: </span> @Model.TrackNumber<br/></div>
+                    }
+                    else if(Model.EPTrack == true)
+                    {
+                        <div class="track-number"><span class="font-weight-bold">EP: </span> <a asp-controller="Library" asp-action="EPDetails" asp-route-id="@Model.Url">@Model.AlbumorEP.Title</a><br/></div>
+                        <div class="track-number"><span class="font-weight-bold">Track Number: </span> @Model.TrackNumber<br/></div>   
+                    }
+                    <div class="genre"><span class="font-weight-bold">Genre: </span>@Model.Genre.Name<br/></div>
+                    <div class="license">
+                        <span class="font-weight-bold">License: @Model.ProductLicense.License</span><br/>
+                    </div>
+                    @if(Model.ProductLicense.License != "Sponsored" && Model.ProductType.Tag != "Album" && Model.ProductType.Tag != "EP")
+                    {
+                        <div class="download-count"><span class="font-weight-bold">Downloads: </span> @Model.DownloadCount<br/></div>
+                    }
+                    
+                    <h5 class="mt-1">Description</h5>
+                    <div class="description wrapper">
+                        <markdown normalize-whitespace="false" sanitize-html="false" Markdown="@Model.Description"/><br/>
+                    </div>
+                    <div class="action-links wrapper">
+                        @if(Model.Fanlink != null)
+                        {
+                            <a href="@Model.Fanlink" class="btn btn-info rounded-0 text-white">Stream</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Library" asp-action="Download" asp-route-id="@Model.Url" class="btn btn-success rounded-0 text-white">Download</a>
+                        }<br/>
+                    </div>
+                    <div class="embed wrapper">
+                        <iframe src="@Model.StreamPlatformUrl" scrolling="no" width="100%" height="250" scrollbars="no" frameborder="0"></iframe><br/>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="addthis_inline_share_toolbox"></div>
+                    </div>
+                </div> 
+            </div>          
+        </div>
+    </div>
+</div>

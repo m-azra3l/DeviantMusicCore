@@ -1,0 +1,24 @@
+@page
+
+@model SubscribeModel
+
+@{
+    ViewData["Title"] = "Subscribe";
+    Layout = "/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="text-center">
+    <h2 class="h4 text-gray-900 mb-4">Subscribe</h2>
+</div>
+<br/>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<br/>
+<form class="user" id="subsciption-form" method="post">
+    <div class="input-group">
+        <input class="form-control" asp-for="Input.Email" placeholder="Email" aria-label="Email">
+            <div class="input-group-append">
+                <input type="submit" class="btn btn-success" value="Subscribe" />
+            </div>
+    </div>
+    <span asp-validation-for="Input.Email" class="text-danger"></span>
+</form>

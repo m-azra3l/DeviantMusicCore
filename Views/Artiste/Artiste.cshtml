@@ -1,0 +1,52 @@
+@model DeviantMusicCore.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = @Model.StageName;
+}
+<div class="wrapper">
+    <div class="list-heading">
+        <h2 class="mb-0">@Model.StageName</h2>
+    </div>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="generic-image-container shadow-sm mb-3 mb-md-0 mx-auto">
+                    @if(Model.UserImage != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(Model.UserImage))" alt="@Model.StageName">
+                    }
+                    else
+                    {
+                        <img src="~/Images/placeholder.png" alt="@Model.StageName">
+                    }
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="generic-details-container">
+                    <div class="name"><span class="font-weight-bold">Name: </span>@Model.Name<br/></div>
+                    <div class="sm-link"><span class="font-weight-bold"></span> <a href="@Model.SocialUrl">Follow on Social Media</a><br/></div>
+                    <h5 class="mt-1">Bio</h5>
+                    <div class="bio wrapper">
+                        <markdown normalize-whitespace="false" sanitize-html="false" Markdown="@Model.Bio"/>
+                        <br/>
+                    </div>
+                    @if(Model.Products.Count > 0 && Model.Beats.Count == 0)
+                    {
+                        <span>Checkout <a href="https://localhost:5001/Blog?searchString=@Model.StageName">Music</a> by me</span>  
+                    }
+                    @if(Model.Beats.Count > 0 && Model.Products.Count == 0)
+                    {
+                        <span>Checkout <a href="https://localhost:5001/Blog?searchString=@Model.StageName">Beats</a> by me</span>
+                    }
+                    @if(Model.Products.Count > 0 && Model.Beats.Count > 0)
+                    {
+                        <span>Checkout <a href="https://localhost:5001/Blog?searchString=@Model.StageName">Beats</a> and <a href="https://localhost:5001/Blog?searchString=@Model.StageName">Music</a> by by me</span>
+                    }
+                    <div class="d-flex justify-content-center">
+                        <div class="addthis_inline_share_toolbox"></div>
+                    </div>
+                </div> 
+            </div>         
+        </div>
+    </div>
+</div>

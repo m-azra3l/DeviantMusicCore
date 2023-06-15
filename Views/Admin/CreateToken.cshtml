@@ -1,0 +1,30 @@
+@model DeviantMusicCore.Models.Download
+
+@{
+    ViewData["Title"] = "Create Token";
+    Layout = "_AdminLayout";
+}
+<h3>Create Download Token</h3>
+<form method="post" action="CreateToken">
+    <div class="form-group row">        
+        <div class="col-md-6">
+            <label>Beat Binder</label>
+            <select asp-for="BeatId" asp-items="ViewBag.BeatId" class="form-control text-center"><option value="">-- Select Product --</option></select>
+            <br/>
+        </div>
+        <div class="col-md-6">
+            <label>Specify Type</label>
+            <label>
+                <input type="checkbox" name="tempodown"/> Temporary DownLoad
+            </label>
+            <br/> 
+        </div>
+        <div class="col-md-12">
+            <label>Title</label>
+            <input asp-for="DownloadTitle" class="form-control" />
+            <br/>
+            <input type="submit" class="btn btn-success" value="Create" />
+            <a asp-action="DownloadList" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</form>

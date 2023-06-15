@@ -1,0 +1,21 @@
+@model DeviantMusicCore.Models.Genre
+
+@{
+    ViewData["Title"] = "Edit Genre";
+    Layout = "_AdminLayout";
+}
+<h3>Edit Genre</h3>
+<form method="post" action="EditGenre">    
+    <div class="form-group">
+        <div class="col-12">
+            <label asp-for="Name"></label>
+            <br/>
+            <input asp-for="Name" class="form-control" />
+            <br/>
+        </div>
+       <div class="form-group">
+            <input type="submit" class="btn btn-success" asp-route-id="@Model.Id" value="Update" />
+            <a asp-action="GenreList" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</form>

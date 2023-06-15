@@ -1,0 +1,210 @@
+@using Microsoft.AspNetCore.Html
+@using Microsoft.AspNetCore.Identity
+@using DeviantMusicCore.Logic
+
+@inject UserManager<ApplicationUser> UserManager
+
+@model DeviantMusicCore.Models.Software
+
+@{
+    ViewData["Title"] = @Model.Name;
+}
+@(new HtmlString(@ViewBag.Alert))
+<div class="wrapper">
+    <div class="list-heading">
+        <div class="row">
+            <div class="col-6">
+                <h2 class="mb-0">@Model.Name</h2>
+            </div>
+            <div class="col-6 text-right">
+                @if(User.IsInRole(Roles.SuperAdmin))
+                {
+                    @if (UserManager.GetUserAsync(User).Result.UserName == Model.Uploader)
+                    {
+                        <a type="button" class="btn btn-primary" asp-controller="Admin"  asp-action="EditSoftware" asp-route-id="@Model.Id">Edit</a>
+                    }
+                }
+                else if(User.IsInRole(Roles.Master))
+                {
+                    <a type="button" class="btn btn-primary" asp-controller="Admin"  asp-action="EditSoftware" asp-route-id="@Model.Id">Edit</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="generic-image-container shadow-sm mb-3 mb-md-0 mx-auto">
+                    @if(Model.Image != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt="@Model.Name">
+                    }
+                    else
+                    {
+                        <img src="~/Images/placeholder.png" alt="@Model.Name">
+                    }
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="generic-details-container">
+                    <div class="artiste-">
+                        @if(Model.DeveloperId != null)
+                        {
+                            <a asp-controller="Team" asp-action="Member" asp-route-id="@Model.Developer.UserName"><span class="font-weight-bold">Developer: @Model.Developer.Name</span></a>
+                        }
+                        else
+                        {
+                            <span class="font-weight-bold">Developer: @Model.ExternalDeveloper</span>
+                        }
+                        <br/>
+                    </div>
+                    <div class="uploader"><span class="font-weight-bold">Uploaded By: </span> <a asp-controller="Team" asp-action="Member" asp-route-id="@Model.Uploader">@Model.Uploader</a><br/></div>
+                    <div class="release-date"><span class="font-weight-bold">Release Date: </span> @Model.ReleaseDate.ToString("dd/MMM/yyyy")<br/></div>
+                    <div class="upload-date"><span class="font-weight-bold">Upload Date: </span> @Model.UploadDate.ToString("dd/MMM/yyyy")<br/></div>
+                    <div class="genre"><span class="font-weight-bold">Type: </span>@Model.SoftwareType.Type<br/></div>
+                    <div class="license">
+                        @if(Model.ExtrasLicense.License == "Paid")
+                        {
+                            <span class="font-weight-bold">Price: @String.Format("{0:F}", Model.Price)</span>
+                        }
+                        else
+                        {
+                            <span class="font-weight-bold">License: @Model.ExtrasLicense.License</span>
+                        }
+                        <br/>
+                    </div>
+                    @if(Model.ExtrasLicense.License != "Paid")
+                    {
+                        <div class="download-count"><span class="font-weight-bold">Downloads: </span> @Model.DownloadCount<br/></div>
+                    }
+                    <h5 class="mt-1">Description</h5>
+                    <div class="description wrapper">
+                        <markdown normalize-whitespace="false" sanitize-html="false" Markdown="@Model.Description"/><br/>
+                    </div>
+                    <div class="action-links wrapper">
+                        @if(Model.ExtrasLicense.License == "Paid")
+                        {
+                            @if(Model.PurchaseURL != null)
+                            {
+                                <p>You can purchase this software offsite. Read about how to purchase softwares <a href="#">here.</a><br/></p>
+                                <a href="@Model.PurchaseURL" target="_blank" class="btn btn-success rounded-0 text-white">Purchase</a>
+                            }
+                            else
+                            {
+                                <p>You can make purchase request for this software onsite. Read about how to purchase softwares <a href="#">here.</a><br/></p>
+                                <a type="button" data-toggle="modal" data-target="#buysoft" class="btn btn-outline-success rounded-0 text-white">Purchase</a>
+                            }
+                        }
+                        else
+                        {
+                            @if(Model.DownloadURL != null)
+                            {
+                                <a type="button" data-toggle="modal" data-target="#softdownload1" class="btn btn-success rounded-0 text-white">Download</a>
+                            }
+                            else
+                            {
+                                <a type="button" data-toggle="modal" data-target="#softdownload" class="btn btn-success rounded-0 text-white">Download</a>
+                            }
+                        }
+                        <br/>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="addthis_inline_share_toolbox"></div>
+                    </div>
+                </div> 
+            </div>          
+        </div>
+    </div>
+</div>
+<form method="post" id="download" action="FreeSoftwareDownload">
+    <div id="softdownload" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <h5 class="modal-title"> Subscribe To Download</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Software Url</label>
+                    <input asp-for="Url" class="form-control" disabled/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="email" class="form-control" placeholder="Email"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input asp-route-id="@Model.Url" type="submit" id="dbutton" value="Download" class="btn btn-outline-success"/>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</form>
+<form id="download1">
+    <div id="softdownload1" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <h5 class="modal-title"> Subscribe To Download</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Software Url</label>
+                    <input asp-for="Url" class="form-control" disabled/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="email2" class="form-control" placeholder="Email"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a target="_blank" asp-controller="Product" id="dbutton1" asp-action="DownloadSoftware" asp-route-id="@Model.Url" type="button" class="btn btn-outline-success">Download</a>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</form>
+<form method="post" id="purchase" enctype="multipart/form-data" class="container-fluid">
+    <div id="buysoft" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <h5 class="modal-title"> Send Purchase Request</h5>
+                <br/>
+                <p>Please read on how to make <a href="#"> purchase request</a> before sending request</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Software Name</label>
+                    <input asp-for="Name" name="id1" class="form-control" disabled/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="Name1" class="form-control" placeholder="Name"/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="email1" class="form-control" placeholder="Email"/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="phone" class="form-control" placeholder="Phone"/>
+                </div>
+                <div class="form-group">
+                    <label>Attacment (less than 1mb)</label>
+                    <input type="file" name="ImageFile" id="fileUpload" class="form-control"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="requestbeat" class="btn btn-outline-success">Request</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</form>

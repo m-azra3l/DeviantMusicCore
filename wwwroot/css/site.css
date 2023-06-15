@@ -1,0 +1,570 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+.tags-widget div > a {
+    font-size: 13px;
+    color: #189ddb;
+    display: inline-block;
+    border: 1px solid #e4e4e4;
+    padding: 5px 8px;
+    margin: 0 5px 10px 0;
+}
+
+.tags-widget div > a:hover {
+    background-color: #2a6496;
+    color: #fff;
+    border-color: #2a6496;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background: rgb(244, 246, 249) !important;
+}
+
+
+
+  /* Style the sidenav links and the dropdown button */
+  .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+   text-decoration: none;
+    font-size: 20px;
+    
+   display: block;
+    border: none;
+    background: none;
+   width:100%;
+    text-align: left;
+    cursor: pointer;
+   outline: none;
+  }
+  
+  /* On mouse-over */
+  .dropdown-btn:hover{
+    color: #0366d6;
+  }
+ 
+  /* Add an activeclass to the active dropdown button */
+  .active {
+   background-color: black;
+    color: white;
+  }
+  
+  /* Dropdown container (hidden by default).Optional: add a lighter background color and some left padding to change thedesign of the dropdown content */
+  .dropdown-container {
+    display:none;
+    
+    padding-left: 8px;
+  }
+
+  .my-dropdown{
+    display: inline-block;
+    position: relative;
+  }
+  
+  .my-dropdown:hover .my-dropdown-content{
+      display: block;
+  }
+
+  .my-dropdown-content{
+    display: none;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
+    padding: 12px 16px;
+    z-index: 1;
+    min-width: 160px;
+    margin-bottom: 1rem;
+    position: absolute;
+  }
+
+.footer {
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 40px; /* Vertically center the text there */
+}
+
+@media screen and (max-width: 767px) {
+    #dark1{display: block;}
+    #dark2{display: none;}
+}
+
+@media screen and (min-width: 768px) {
+    #dark1{display: none;}
+    #dark2{display: block;}
+}
+
+
+/*---------------------------Album and EP Track-----------------------------*/
+
+
+      .prod-info-main {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        background-color: white;
+        padding: 6px;
+        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+        display: block;
+     }
+      
+     .prod-info-main .myproduct-image {
+         background-color: #EBF8FE;
+         display: block;
+         min-height: 238px;
+         overflow: hidden;
+         position: relative;
+         border: 1px solid #CEEFFF;
+         padding-top: 40px;
+     }
+      .prod-info-main .myproduct-image .img-responsive{
+          width:170px; 
+          height:170px;
+     }
+
+     .rotprod{
+          -webkit-transition-duration: 0.8s;
+           -moz-transition-duration: 0.8s;
+            -o-transition-duration: 0.8s;
+             transition-duration: 0.8s;
+     }  
+      
+     .rotprod:hover{
+          -webkit-transform:rotate(360deg);
+          -moz-transform:rotate(360deg);
+          -o-transform:rotate(360deg);
+     }
+       
+     .prod-info-main .myproduct-detail {
+         border-bottom: 1px solid #dfe5e9;
+         padding-bottom: 17px;
+         padding-left: 16px;
+         padding-top: 16px;
+         position: relative;
+         background: #fff;
+     }
+      
+     .myproduct-content .myproduct-detail h5 a {
+         color: #2f383d;
+         font-size: 15px;
+         line-height: 19px;
+         text-decoration: none;
+         padding-left: 0;
+         margin-left: 0;
+     } 
+      
+     .prod-info-main .myproduct-detail h5 a span {
+          color: #9aa7af;
+          display: block;
+          font-size: 13px
+     } 
+      
+     .prod-info-main .myproduct-detail span.tag1 {
+          border-radius: 50%;
+          color: #fff;
+          font-size: 15px;
+          height: 50px;
+          padding: 13px 0;
+          position: absolute;
+          right: 10px;
+          text-align: center;
+          top: 10px;
+          width: 50px;
+     }
+      
+     .prod-info-main .myproduct-detail span.sale {
+         background-color: #21c2f8;
+     }
+      
+     .prod-info-main .myproduct-detail span.discount {
+         background-color: #71e134;
+     } 
+      
+     .prod-info-main .myproduct-detail span.hot {
+          background-color: #fa9442;
+     } 
+      
+     .prod-info-main .description {
+          font-size: 12.5px;
+          line-height: 20px;
+          padding: 10px 14px 16px 19px;
+          background: #fff;
+     } 
+      
+     .prod-info-main .myproduct-info {
+          padding: 11px 19px 10px 20px;
+     }
+       
+     .prod-info-main .myproduct-info a.add-to-cart {
+         color: #2f383d;
+         font-size: 13px;
+         padding-left: 16px;
+     }
+       
+     .prod-info-main name.a {
+         padding: 5px 10px;
+         margin-left: 16px;
+     
+     }
+      
+     .myproduct-info.smart-form .btn {
+         padding: 6px 12px;
+         margin-left: 12px;
+         margin-top: -10px;
+     }
+       
+     .myproduct-block .myproduct-detail p.container1 span,
+      
+     .prod-info-main .myproduct-detail p.container1 span,
+      
+     .shipping table tbody tr td p.container1 span,
+      
+     .shopping-items table tbody tr td p.container1 span {
+         color: #21c2f8;
+         font-family: Lato, sans-serif;
+         font-size: 24px;
+         line-height: 20px;
+     }
+       
+     .myproduct-info .smart-form .rating label {
+         margin-top:15px;
+     } 
+      
+     .prod-wrap .myproduct-image span.tag2 {
+           position: absolute;
+           top: 10px;
+           right: 10px;
+           width: 36px;
+           height: 36px;
+           border-radius: 50%;
+           padding: 10px 0;
+           color: #fff;
+           font-size: 11px;
+           text-align: center;
+     }
+      
+     .prod-wrap .myproduct-image span.tag3 {
+         position: absolute;
+         top: 10px;
+         right: 20px;
+         width: 60px;
+         height: 36px;
+         border-radius: 50%;
+         padding: 10px 0;
+         color: #fff;
+         font-size: 11px;
+         text-align: center;
+     }
+      
+     .myproduct-detail hr {
+         padding: 0 0 5px!important;
+     } 
+      
+     .myproduct-detail .glyphicon {
+          color: #3276b1;
+     }
+      
+     .myproduct-detail .myproduct-image {
+         border-right: 0px solid #fff !important;
+     }
+      
+     .myproduct-detail .name {
+         margin-top: 0;
+         margin-bottom: 0;
+     }
+      
+     .myproduct-detail .name small {
+         display: block;
+     }
+       
+     .myproduct-detail .name a {
+         margin-left: 0;
+     }
+      
+     .myproduct-detail .container1 {
+         font-size: 24px;
+         margin: 0;
+         font-weight: 300;
+     }
+      
+     .myproduct-detail .container1 small{
+         font-size: 12px;
+     }
+      
+     .myproduct-detail .fa-2x {
+         font-size: 16px!important;
+     }
+       
+     .myproduct-detail .fa-2x>h5 {
+         font-size: 12px;
+         margin: 0;
+     }
+      
+     .myproduct-detail .fa-2x+a,
+     .myproduct-detail .fa-2x+a+a {
+         font-size: 13px;
+     }
+      
+     .myproduct-detail .certified {
+         margin-top: 10px;
+     }
+       
+     .myproduct-detail .certified ul {
+         padding-left: 0;
+     }
+       
+     .myproduct-detail .certified ul li:not(first-child) {
+         margin-left: -3px;
+     } 
+      
+     .myproduct-detail .certified ul li {
+           display: inline-block;
+           background-color: #f9f9f9;
+           padding: 13px 19px;
+     } 
+      
+     .myproduct-detail .certified ul li:first-child {
+          border-right: none;
+     }
+      
+     .myproduct-detail .certified ul li a {
+         text-align: left;
+         font-size: 12px;
+         color: #6d7a83;
+         line-height: 16px;
+         text-decoration: none;
+     }
+      
+     .myproduct-detail .certified ul li a span {
+         display: block;
+         color: #21c2f8;
+         font-size: 13px;
+         font-weight: 700;
+         text-align: center;
+     }
+      
+     .myproduct-detail .message-text {
+         width: calc(100% - 70px);
+     }
+     
+     @media only screen and (min-width:1024px){
+     
+       .prod-info-main div[class*=col-md-4] {
+         padding-right: 0;
+       }
+      
+         .prod-info-main div[class*=col-md-8] {
+           padding: 0 13px 0 0;
+     
+         }
+      
+         .prod-wrap div[class*=col-md-5] {
+           padding-right: 0;
+     
+         }
+      
+         .prod-wrap div[class*=col-md-7] {
+           padding: 0 13px 0 0;
+     
+         }
+      
+         .prod-info-main .myproduct-image {
+           border-right: 1px solid #dfe5e9;
+     
+         }
+      
+         .prod-info-main .myproduct-info {
+           position: relative;
+     
+         }
+     }
+
+     @media (min-width: 768px) {
+        .myimg{
+            width: 180px;
+            height: 180px
+        }
+    }
+
+    @media (max-width: 767px) {
+        .myimg{
+            width: 150px;
+            height: 150px
+        }
+    }
+    
+    @media (min-width:576px){
+        #formsearch{display:none;}
+        #buttonsearch{display: none;}
+        #myuser{display: none;}
+        #signout{display: none;}
+        #search{display:block;}  
+        #logoutForm{display:block;}
+        #manage{display:block;}
+    }
+
+    @media (max-width:575px){
+        
+        #buttonsearch{display:block;}
+        #myuser{display:block;}
+        #signout{display:block;}
+        #search{display:none;}
+        #logoutForm{display:none;}
+        #manage{display:none;}
+    }
+
+    @media (max-width: 469px) {
+        .myimg{
+            width: 100px;
+            height: 100px
+        }
+        .container1{
+            display: block;
+        }
+        #content1{
+            display: block;
+        }
+        #content2{
+            display: none;
+        }
+    }
+
+    @media (max-width: 345px) {
+        .myimg{
+            width: 100px;
+            height: 100px
+        }
+        .container1{
+            display: block;
+        }
+        #content1{
+            display: none;
+        }
+        #content2{
+            display: none;
+        }
+    }
+
+    @media (max-width: 344px) {
+        .myimg{
+            width: 80px;
+            height: 80px
+        }
+        .container1{
+            display: none;
+        }
+        #content1{
+            display: none;
+        }
+        #content2{
+            display: none;
+        }
+    }
+
+    .searchbardiv{
+        display:block;
+        position:fixed;
+        top:auto;
+        right:6px;
+        z-index:1001;
+        width:100%;
+        max-width:100%;
+        padding:10px;
+        margin:0px;
+    }
+
+    #formsearch{
+        display: none;
+    }
+
+    #searchbox{
+        box-shadow:none;
+        padding: 8px 14px;
+    }
+
+    #searchbox:hover{
+        box-shadow: none;
+    }
+
+    .buttonsearch{
+        position:fixed;
+        top:22px;
+        float:right;
+        right:0px;
+        margin-right:8px;
+        background-color:transparent;
+        border:0px;
+        -webkit-box-shadow:none;
+        -moz-box-shadow:none;
+        box-shadow:none;
+    }
+    
+    .buttonsearch:hover{
+         border:0px;
+        -webkit-box-shadow:none;
+        -moz-box-shadow:none;
+        box-shadow:none;
+    }
+    
+    .buttonsearch:focus{
+         border:0px;
+        -webkit-box-shadow:none;
+        -moz-box-shadow:none;
+        box-shadow:none;
+    }

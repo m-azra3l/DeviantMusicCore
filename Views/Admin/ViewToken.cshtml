@@ -1,0 +1,38 @@
+@model DeviantMusicCore.Models.Download
+
+@{
+    ViewData["Title"] = "View Token";
+    Layout = "_AdminLayout";
+}
+<h3>Download Token</h3>
+<form method="post" action="DeleteToken">
+    <div class="form-group row">        
+        <div class="col-md-6">
+            <label>Beat</label>
+            <select asp-for="BeatId" asp-items="ViewBag.BeatId" class="form-control text-center" disabled></select>
+            <br/>
+            <label>Title</label>
+            <input asp-for="DownloadTitle" class="form-control" disabled/>
+            <br/>
+            <label>Download Url</label>
+            <input asp-for="Url" class="form-control"/>
+            <br/>
+            <label>Download Token</label>
+            <input asp-for="DownloadToken" class="form-control" disabled/>
+            <br/>
+        </div>
+        <div class="col-md-6">
+            <label>Expire After Download</label>
+            <input asp-for="ExpireAfterDownload" disabled/> 
+            <br/> 
+            <label>Downloaded</label>
+            <input asp-for="Downloaded" class="form-control" disabled/>
+            <br/>
+            <label>Hits</label>
+            <input asp-for="Hits" class="form-control" disabled/>
+            <br/>
+            <button type="submit" class="btn btn-danger" asp-action="DeleteToken" asp-route-id="@Model.Id">Delete</button>
+            <a asp-action="DownloadList" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</form>

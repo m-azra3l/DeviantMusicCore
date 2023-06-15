@@ -1,0 +1,77 @@
+@using Microsoft.AspNetCore.Identity;
+@using DeviantMusicCore.Logic
+
+@inject UserManager<ApplicationUser> UserManager
+
+@model DeviantMusicCore.Models.BlogItem
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<div class="wrapper">
+    <article>
+        <div class="article-header mb-5">
+            <div class="row">
+                <div class="col-6">
+                    <h2 class="blog-post-title-lg mb-4">
+                        @Model.Title
+                    </h2>
+                </div>
+                <div class="col-6 text-right">
+                    @if(User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Member))
+                    {
+                        @if(UserManager.GetUserAsync(User).Result.UserName == Model.Author.UserName)
+                        {
+                            <a type="button" class="btn btn-outline-primary" asp-controller="Admin"  asp-action="EditBlogPost" asp-route-id="@Model.Id">Edit</a>
+                        }
+                    }
+                    else if(User.IsInRole(Roles.Master))
+                    {
+                        <a type="button" class="btn btn-outline-primary" asp-controller="Admin"  asp-action="EditBlogPost" asp-route-id="@Model.Id">Edit</a>
+                    }
+                </div>
+            </div>
+            <div class="pub-info-container-lg d-flex align-items-center mb-4">
+                <div class="mr-4 mb-3 mb-md-0">
+                    @if(Model.Author.UserImage != null)
+                    {
+                        <img alt="@Model.Author.UserName" class="author-image border mr-2" src="data:image/*;base64,@(Convert.ToBase64String(Model.Author.UserImage))">
+                    }
+                    else
+                    {
+                        <img alt="@Model.Author.UserName" class="author-image border mr-2" src="~/Images/placeholder.png">
+                    }
+                    <a asp-controller="Team" asp-action="Member" asp-route-id="@Model.Author.UserName"><span class="mr-2">@Model.Author.Name</span></a>
+                </div>
+                <div class="mr-4 mb-3 mb-md-0">
+                    <span class="mr-2">Category: @Model.BlogCategory.Category &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class="mr-2">&#x1F552;</span><span>@Model.PublishDate.ToString("dd/MMM/yyyy") &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class="mr-2"><i class="far fa-eye"></i>&nbsp;</span><span>@Model.Views Views</span>
+                </div>
+            </div>
+            <!-- If an image is not available to display as the article header add "d-none" to the class list of the div below -->
+            <div class="blog-post-image-container d-flex align-items-center justify-content-center">
+                @if(Model.PostImage != null)
+                {
+                    <img class="blog-post-image" src="data:image/*;base64,@(Convert.ToBase64String(Model.PostImage))" alt="@Model.Title">
+                }
+                else
+                {
+                    <img class="blog-post-image" src="~/Images/placeholder.png" alt="@Model.Title">
+                }
+            </div>
+        </div>
+
+        <div class="article-body mx-auto mb-5">
+            <markdown normalize-whitespace="false" Markdown="@Model.Article" sanitize-html="false"/>
+            <br/>
+        </div>
+        <div class="article-footer d-flex justify-content-center">
+            <div class="d-flex justify-content-center">
+                <div class="addthis_inline_share_toolbox"></div>
+            </div>
+        </div>
+    </article>
+
+</div>

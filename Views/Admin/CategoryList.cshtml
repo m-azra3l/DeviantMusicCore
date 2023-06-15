@@ -1,0 +1,50 @@
+@model IEnumerable<DeviantMusicCore.Models.BlogCategory>
+
+@{
+    ViewData["Title"] = "Category List";
+    Layout = "_AdminLayout";
+}
+<div class="row">
+    <div class="col-6">
+        <h3>Category List</h3>
+    </div>
+    <div class="col-6 text-right">
+        <a class="btn btn-info" asp-action="CreateCategory">Add</a>        
+    </div>
+    <br />
+    <div class="col-12">
+        <table class="table table-striped border" >
+            <tr>
+                <th class="text-center">
+                    Id
+                </th>
+                <th class="text-center">
+                    Category
+                </th>
+                <th class="text-center">
+                    Actions
+                </th>
+            </tr>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(pl => item.Id)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(g => item.Category)
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <a type="button" class="btn btn-success rounded-0"  asp-action="EditCategory" asp-route-id="@item.Id"><i class="far fa-edit"></i></a>
+                            <form method="post" action="DeleteCategory">
+                                <button onclick="if (!confirm('Are you sure you want to delete this Item?')) { return false }" type="submit" class="btn btn-danger rounded-0 " asp-action="DeleteCategory" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i></button>
+                            </form>
+                        </div>
+                    </td>                   
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

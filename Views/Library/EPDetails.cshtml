@@ -1,0 +1,126 @@
+@using Microsoft.AspNetCore.Identity;
+@using DeviantMusicCore.Logic
+
+@inject UserManager<ApplicationUser> UserManager
+
+@model DeviantMusicCore.Models.Product
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<div class="wrapper">
+    <div class="list-heading">
+        <div class="row">
+            <div class="col-6">
+                <h2 class="mb-0">@Model.Title</h2>
+            </div>
+            <div class="col-6 text-right">
+                @if(User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.Admin))
+                {
+                    @if(UserManager.GetUserAsync(User).Result.UserName == Model.Uploader)
+                    {
+                        <a type="button" class="btn btn-primary" asp-controller="Admin"  asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                    }
+                }
+                else if(User.IsInRole(Roles.Master))
+                {
+                    <a type="button" class="btn btn-primary" asp-controller="Admin"  asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="generic-image-container shadow-sm mb-3 mb-md-0 mx-auto">
+                    @if(Model.ProductImage != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(Model.ProductImage))" alt="@Model.Title">
+                    }
+                    else
+                    {
+                        <img src="~/Images/placeholder.png" alt="@Model.Title">
+                    }
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="generic-details-container">
+                    <div class="artiste-">
+                        @if(Model.ArtisteId != null)
+                        {
+                            <a asp-controller="Artiste" asp-action="Artiste" asp-route-id="@Model.Artiste.UserName"><span class="font-weight-bold">Artiste: @Model.Artiste.StageName</span></a>
+                        }
+                        else
+                        {
+                            <span class="font-weight-bold">Artiste: @Model.ArtisteName</span>
+                        }
+                        <br/>
+                    </div>
+                    <div class="track-number"><span class="font-weight-bold">Type:</span>@Model.ProductType.Tag<br/></div>
+                    <div class="release-date"><span class="font-weight-bold">Release Date: </span> @Model.ReleaseDate.ToString("dd/MMM/yyyy")<br/></div>
+                    <div class="upload-date"><span class="font-weight-bold">Upload Date: </span> @Model.UploadDate.ToString("dd/MMM/yyyy")<br/></div>
+                    <div class="uploader"><span class="font-weight-bold">Uploaded By: </span> <a asp-controller="Team" asp-action="Member" asp-route-id="@Model.Uploader">@Model.Uploader</a><br/></div>
+                    <div class="license">
+                        <span class="font-weight-bold">License: @Model.ProductLicense.License</span><br/>
+                    </div>
+                    
+                    <h5 class="mt-1">Description</h5>
+                    <div class="description wrapper">
+                        <markdown normalize-whitespace="false" sanitize-html="false" Markdown="@Model.Description"/><br/>
+                    </div>
+                    <div class="action-links wrapper">
+                        @if(Model.Fanlink != null)
+                        {
+                            <a href="@Model.Fanlink" class="btn btn-info rounded-0 text-white">Stream</a><br/>
+                        }
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="addthis_inline_share_toolbox"></div>
+                    </div>
+                </div> 
+            </div>          
+        </div>
+    </div>
+    <div class="wrapper artiste-products">
+        <div class="list-heading">
+            <h4 class="mb-0">Tracks</h4>
+        </div>
+        <div class= "row justify-content-between">
+            @foreach (var track in Model.MyProducts)
+            {
+                <div class="col-md-6">
+                    <div class="prod-info-main prod-wrap clearfix" style="width: auto;">
+                            <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="myproduct-image">
+                                            @if(track.ProductImage != null)
+                                            {
+                                                <a asp-controller="Library" asp-action="Details" asp-route-id="@track.Url"><img alt="@track.Title" src="data:image/*;base64,@(Convert.ToBase64String(track.ProductImage))" class="myimg"></a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="Library" asp-action="Details" asp-route-id="@track.Url"><img alt="@track.Title" src="~/Images/placeholder.png" class="myimg"></a>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td>&nbsp;</td>  
+                                    <td>&nbsp;</td> 
+                                    <td style="vertical-align: top; text-align:left;">
+                                        <div class="myproduct-detail">
+                                            <div class="blog-post-title-container mb-3"><a a asp-controller="Library" asp-action="Details" asp-route-id="@track.Url">@track.Title</a></div>
+                                            <p class="container1 small"><span class="tag1">Track Number: @track.TrackNumber</span></p>
+                                            <p class="small" id="content1"><span class="tag1">@track.Genre.Name</span></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> 
+                </div>
+            }
+        </div>
+    </div> 
+</div>

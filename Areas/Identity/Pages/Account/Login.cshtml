@@ -1,0 +1,32 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Sign In";
+    Layout = "/Views/Shared/_LoginLayout.cshtml";
+}
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Sign In</h1>
+                                        </div>
+                                        <form class="user" id="account" method="post">
+                                            <div class="form-group">
+                                                <input asp-for="Input.UserName"  class="form-control form-control-user" id="exampleInputEmail" placeholder="Enter Username or Email...">
+                                                <small><span asp-validation-for="Input.UserName" class="text-danger"></span></small>
+                                            </div>
+                                            <div class="form-group">
+                                                <input asp-for="Input.Password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                                <small><span asp-validation-for="Input.Password" class="text-danger"></span></small>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input asp-for="Input.RememberMe" type="checkbox" class="custom-control-input" id="customCheck">
+                                                    <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                Sign In
+                                            </button>
+                                            </form>
+                                        <hr>
+                                        <div class="form-group text-center">
+                                            <p><a id="forgot-password" asp-area="Identity" asp-page="/Account/forgotpassword">Forgot Password?</a></p>
+                                        </div>

@@ -1,0 +1,14 @@
+@using DeviantMusicCore.Views.Shared.Components.BeatList;
+@using DeviantMusicCore.Views.Shared.Components.SoftwareList;
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="wrapper">
+    <div class="wrapper">
+        @(await Component.InvokeAsync("BeatList"))
+    </div>
+    <div class="wrapper">
+        @(await Component.InvokeAsync("SoftwareList"))
+    </div>
+</div>

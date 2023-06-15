@@ -1,0 +1,22 @@
+@model DeviantMusicCore.Models.BlogCategory
+
+@{
+    ViewData["Title"] = "Create Category";
+    Layout = "_AdminLayout";
+}
+
+<h3>Add Genre</h3>
+<form method="post" action="CreateCategory">
+    <div class="form-group">        
+        <div class="col-12">
+            <label>Category</label>
+            <br/>
+            <input asp-for="Category" class="form-control" />
+            <br/>
+        </div>        
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" value="Create" />
+            <a asp-action="CategoryList" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</form>

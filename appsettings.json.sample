@@ -1,0 +1,20 @@
+{
+  "ConnectionStrings": {
+    "Default": "DataSource=app.db;Cache=Shared"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "MailSettings": {
+    "Mail": "your mail",
+    "DisplayName": "your displayname",
+    "Password": "your Password",
+    "Host": "your host",
+    "Port": port number
+  },
+  "AllowedHosts": "*"
+}

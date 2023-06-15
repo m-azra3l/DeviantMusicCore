@@ -1,0 +1,67 @@
+@model IEnumerable<DeviantMusicCore.Models.Software>
+
+<div class="list-heading">
+    <h4 class="mb-0">Softwares</h4>
+</div>
+<div class="wrapper d-flex flex-wrap align-items-center justify-content-between">
+    @foreach(var software in Model)
+    {
+        <div class="blog-post d-flex border">
+            <div class="blog-post-thumbnail-container d-flex align-items-center justify-content-center">
+                @if(software.Image != null)
+                {
+                    <a asp-controller="Product" asp-action="SofwareDetail" asp-route-id="@software.Id"><img class="blog-post-thumbmail" src="data:image/*;base64,@(Convert.ToBase64String(software.Image))" alt="@software.Name"></a>
+                }
+                else
+                {
+                    <a asp-controller="Product" asp-action="SofwareDetail" asp-route-id="@software.Id"><img class="blog-post-thumbmail" src="~/Images/blogplaceholder.png" alt="@software.Name"></a>
+                }
+            </div>
+            <div class="blog-tag">
+                @software.SoftwareType.Type
+            </div>
+            <div class="blog-post-details-container p-1">
+                    <br/>
+                    <div class="blog-post-title-container mb-3">
+                        <a class="text-decoration-none" asp-controller="Product" asp-action="SoftwareDetail" asp-route-id="@software.Url"><h4 class="blog-post-title">@software.Name</h4></a>
+                    </div>
+                    <div class="pub-info-container d-flex align-items-center">
+                        <div class="mr-4">
+                            if(software.DeveloperId != null)
+                            {
+                                if(software.Developer.UserImage != null)
+                                {
+                                    <img alt="@software.Developer.UserName" class="author-image border mr-2" src="data:image/*;base64,@(Convert.ToBase64String(software.Developer.UserImage))">
+                                }
+                                else
+                                {
+                                    <img alt="@software.Developer.UserName" class="author-image border mr-2" src="~/Images/placeholder.png">
+                                }
+                                <a asp-controller="Team" asp-action="Member" asp-route-id="@software.Developer.UserName"><span class="author-name">@software.Developer.Name</span></a>    
+                            }
+                            else
+                            {
+                                <img alt="@software.ExternalDeveloper" class="author-image border mr-2" src="~/Images/placeholder.png">
+                                <span class="author-name">@software.ExternalDeveloper</span> 
+                            }
+                        </div>
+                        <div>
+                            <span class="mr-2">&#x1F552;</span>Released: <span>@software.ReleaseDate.ToString("dd/MMM/yyyy")</span>
+                            &nbsp;
+                            @if(software.ExtrasLicense.License == "Paid")
+                            {
+                                @String.Format("{0:F}", software.Price)
+                            }
+                            else
+                            {
+                                <span class="mr-2"></span> <span>@software.ExtrasLicense.License</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+        </div>
+    }
+</div>
+<div class="view-more-container my-5">
+    <a class="view-more d-block mx-auto text-decoration-none border" asp-controller="Product" asp-action="SoftwareLibrary">View More</a>
+</div>

@@ -1,0 +1,23 @@
+@model DeviantMusicCore.Models.HomeCarousel
+
+@{
+    ViewData["Title"] = "Create Carousel";
+    Layout = "_AdminLayout";
+}
+<h3>Create Carousel</h3>
+<form method="post" enctype="multipart/form-data" asp-action="CreateCarousel">
+    <div asp-validation-summary="All" class="text-danger"></div>     
+    <div class="form-group row">
+        <div class="col-md-12">
+            <label>Name</label>
+            <Input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        
+            <label>Image(less than 512kb</label>
+            <input type="file" name="ImageUrl" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" class="form-control"/>
+            <br />
+            <input type="submit" class="btn btn-success" value="Create" />
+            <a asp-action="CarouselList" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</form>

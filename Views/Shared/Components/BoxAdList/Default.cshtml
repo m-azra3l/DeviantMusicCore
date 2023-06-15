@@ -1,0 +1,15 @@
+@model IEnumerable<DeviantMusicCore.Models.AdsPB>
+<div id="ad-rotator-carousel-container" class="wrapper">
+    <!-- The carousel object -->
+    <div id="ad-rotator" class="carousel slide" data-ride="carousel" data-interval="10000">
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+            @foreach(var file in Model)
+            {   
+                <div class="carousel-item @(file == Model.First() ? "active":"")">
+                    <a asp-controller="Home" asp-action="RedirectAd" asp-route-id="@file.Id" target="_blank"><img src="data:image/*;base64,@(Convert.ToBase64String(file.ImageUrl))" alt="@file.Title"></a>
+                </div>                                
+            }
+        </div>
+    </div>
+</div>   

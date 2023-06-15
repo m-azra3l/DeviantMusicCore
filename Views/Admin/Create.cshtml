@@ -1,0 +1,235 @@
+@model DeviantMusicCore.Models.Product
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_AdminLayout";
+}
+<h3>Create</h3>
+<form method="post" enctype="multipart/form-data" class="container-fluid" asp-action="Create">
+    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p>Select Artiste Type<br/></p>
+        </div>
+        <div class="col-md-12">
+            <label>Artiste Type</label>
+            <select class="form-control text-center" id="artistetype">
+                <option value="selecttype">-- Select Type --</option>
+                <option value="Indie">Independent Artiste</option>
+                <option value="Managed">Managed Artiste</option>
+            </select>
+            <br/>
+        </div> 
+    </div>
+    <div class="form-group row" id="mainproduct" style="display: none;">   
+        <div class="col-md-12" id="artistebinder" style="display: none;">
+            <label>Artiste (For Managed Artistes Only)</label>
+            <select asp-for="ArtisteId" asp-items="ViewBag.ArtisteId" class="form-control text-center"><option value="">-- Select Artiste --</option></select>
+            <br/>
+        </div>   
+        <div class="col-md-12">
+            <label>License Binder</label>
+            <select asp-for="ProductLicenseId" asp-items="ViewBag.ProductLicenseId" class="form-control text-center" id="license"><option value="">-- Select License --</option></select>
+            <span asp-validation-for="ProductLicenseId" class="text-danger"></span>
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Type Binder</label>
+            <select asp-for="ProductTypeId" asp-items="ViewBag.ProductTypeId" class="form-control text-center" id="typebinder"><option value="">-- Select Tag --</option></select>
+            <span asp-validation-for="ProductTypeId" class="text-danger"></span>
+            <br/>           
+        </div>  
+        <div class="col-md-12" id="tracking" style="display: none;">
+            <div class="col-md-10">
+                <label>
+                    <input asp-for="AlbumTrack" type="checkbox" id="check1"/> Album Track    
+                </label> 
+                <label>
+                    <input asp-for="EPTrack" type="checkbox" id="check2"/> EP Track    
+                </label>
+                <br/>
+            </div> 
+            <label>Album Binder</label>
+            <select asp-for="AlbumorEPId" asp-items="ViewBag.AlbumId" class="form-control text-center" id="albumbinder" style="display: none;"><option value="">-- Select Genre --</option></select>
+            <br/>
+            <label>EP Binder</label>
+            <select asp-for="AlbumorEPId" asp-items="ViewBag.EPId" class="form-control text-center" id="epbinder" style="display: none;"><option value="">-- Select Genre --</option></select>
+            <br/>
+        </div>         
+        <div class="col-md-12" id="genre" style="display: none;">
+            <label>Genre Binder</label>
+            <select asp-for="GenreId" asp-items="ViewBag.GenreId" class="form-control text-center"><option value="">-- Select Genre --</option></select>
+            <br/>
+        </div> 
+        <div class="col-md-12">
+            <label>Title</label>
+            <Input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+            <br/>
+        </div>
+        <div class="col-md-12" id="artistename" style="display: none;">
+            <label>Artiste Stage Name</label>
+            <Input asp-for="ArtisteName" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Product Url (Title and replace any space with underscore(" _ "))</label>
+            <Input asp-for="Url" class="form-control" />
+            <span asp-validation-for="Url" class="text-danger"></span>
+            <span asp-validation-for="Url" class="text-danger"></span>
+            <br/>
+            <label asp-for="StreamPlatformUrl"></label>
+            <Input asp-for="StreamPlatformUrl" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12" id="featuring" style="display: none;">
+            <label asp-for="Featuring"></label>
+            <Input asp-for="Featuring" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12" id="producer" style="display: none;">
+            <label asp-for="Producer"></label>
+            <Input asp-for="Producer" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12" id="writer" style="display: none;">
+            <label asp-for="Writer"></label>
+            <Input asp-for="Writer" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Release Date (Format DD-MM-YYYY)</label>
+            <Input asp-for="ReleaseDate" asp-format="{0:dd/MMM/yyyy}" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12" id="fanlink" style="display: none;">
+            <label asp-for="Fanlink"></label>
+            <Input asp-for="Fanlink" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12" id="tracknumber" style="display: none;">
+            <label asp-for="TrackNumber"></label>
+            <Input asp-for="TrackNumber" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Image (less than 512kb)</label>
+            <input type="file" name="ImageFile" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" class="form-control"/>
+            <br/>
+            <label>Description</label>
+            <textarea asp-for="Description" rows="20"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <br />
+            <input type="submit" class="btn btn-success" value="Create" />
+            <input type="button" value="Back" onclick="window.history.back();" class="btn btn-primary"/>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script>
+        $(document).ready(function ()
+        {
+            $('#artistetype').change(function()
+            {
+                if($(this).val() == 'selecttype')
+                {
+                    $("#mainproduct").hide()
+                    $("#artistebinder").hide()
+                    $("#artistename").hide()
+                }
+                if($(this).val() == 'Indie')
+                {
+                    $("#mainproduct").show()
+                    $("#artistebinder").hide()
+                    $("#artistename").show()
+                }
+                if($(this).val() == 'Managed')
+                {
+                    $("#mainproduct").show()
+                    $("#artistebinder").show()
+                    $("#artistename").hide()
+                }
+            });
+            $("#license").change(function()
+            {
+                if($(this).val() == 1)
+                {
+                    $("#fanlink").hide()
+                }
+                if($(this).val() == 2)
+                {
+                    $("#fanlink").show()
+                }
+            });
+            $("#typebinder").change(function()
+            {
+                 if($(this).val() == 1)
+                {
+                    $("#writer").hide()
+                    $("#producer").hide()
+                    $("#featuring").hide()
+                    $("#genre").hide()
+                    $("#tracknumber").hide()
+                    $('#tracking').hide()
+                }
+                if($(this).val() == 2)
+                {
+                    $("#writer").hide()
+                    $("#producer").hide()
+                    $("#featuring").hide()
+                    $("#genre").hide()
+                    $("#tracknumber").hide()
+                    $('#tracking').hide()
+                }
+                if($(this).val() == 3)
+                {
+                    $("#writer").show()
+                    $("#producer").show()
+                    $("#featuring").show()
+                    $("#genre").show()
+                    $("#tracknumber").hide()
+                    $('#tracking').hide()
+                }
+                if($(this).val() == 4)
+                {
+                    $("#writer").show()
+                    $("#producer").show()
+                    $("#featuring").show()
+                    $("#genre").show()
+                    $("#tracknumber").show()
+                    $('#tracking').show()
+
+                }
+            });
+            $("#check1").click(function(event) {
+                if ($(this).is(":checked"))
+                {
+                    $("#check2").attr('disabled','disabled')
+                    $("#albumbinder").show()
+                    $("#epbinder").hide()
+                }
+                else
+                {
+                    $("#check2").removeAttr('disabled','disabled')
+                    $("#albumbinder").hide()
+                    $("#epbinder").hide()
+                }
+            });
+            $("#check2").click(function(event) {
+                if ($(this).is(":checked"))
+                {
+                    $("#check1").attr('disabled','disabled')
+                    $("#albumbinder").hide()
+                    $("#epbinder").show()
+                }
+                else
+                {
+                    $("#check1").removeAttr('disabled','disabled')
+                    $("#albumbinder").hide()
+                    $("#epbinder").hide()
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,93 @@
+@using DeviantMusicCore.Models;
+@using DeviantMusicCore.Logic
+
+@inject SignInManager<ApplicationUser> SignInManager 
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+@if(User.IsInRole(Roles.Admin) || User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.Member) || User.IsInRole(Roles.Master))
+{
+    <button href="#" class="dropdown-btn btn-default" style="text-align: center;">Account Settings</button>
+    <div class="dropdown-container" style="text-align: center;">
+        <div class="tags-widget">
+            <div>
+                <br/>
+                <a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a>
+                <a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-area="Identity" asp-page="/Account/Manage/Email">Email</a>
+                <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" asp-area="Identity" id="change-password" asp-page="/Account/Manage/ChangePassword">Password</a>
+                <a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-area="Identity" asp-page="/Account/Manage/TwoFactorAuthentication">Two-factor authentication</a> 
+            </div>                              
+        </div>
+    </div>
+    <button href="#" class="dropdown-btn btn-default" style="text-align: center;">Admin Controls</button>
+    <div class="dropdown-container" style="text-align: center;">
+        <div class="tags-widget">
+            <div>
+                <br/>
+                @if(User.IsInRole(Roles.Member))
+                {
+                    <a asp-controller="Admin" asp-action="UserBlogList">Blog</a>
+                }
+                else if(User.IsInRole(Roles.Admin))
+                {
+                    <a asp-controller="Admin" asp-action="UserBlogList">Blog</a>
+                    <a asp-controller="Admin" asp-action="UserProductList">Product</a>
+                }
+                else if(User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.Master))
+                {
+                    <a asp-controller="Admin" asp-action="UserBlogList">Blog</a>
+                    <a asp-controller="Admin" asp-action="UserProductList">Product</a>
+                    <a asp-controller="Admin" asp-action="UserSoftwareList">Software</a>
+                }
+            </div>
+        </div>
+    </div>
+    @if(User.IsInRole(Roles.Master))
+    {
+        <button href="#" class="dropdown-btn btn-default" style="text-align: center;">Master Catalog</button>
+        <div class="dropdown-container" style="text-align: center;">
+            <div class="tags-widget">
+                <div>
+                    <br/>
+                    <a class="nav-link" asp-controller="Admin" asp-action="BannerAdsList">AdsB</a>
+                    <a asp-controller="Admin" asp-action="BeatList">Beat</a>
+                    <a asp-controller="Admin" asp-action="SquareAdsList">AdsPB</a>                                          
+                    <a asp-controller="Admin" asp-action="CarouselList">Carousel</a>
+                    <a asp-controller="Admin" asp-action="DownloadList">Download</a>
+                    <a asp-controller="Admin" asp-action="CategoryList">Blog Category</a>
+                    <a asp-controller="Admin" asp-action="GenreList">Genre</a>
+                    <a asp-controller="Admin" asp-action="LicenseList">Product License</a>
+                    <a asp-controller="Admin" asp-action="ExtrasList">Extras License</a>
+                    <a asp-controller="Admin" asp-action="TagList">Product Type</a>
+                    <a asp-controller="Admin" asp-action="TypeList">Software Type</a>
+                    <a asp-controller="Admin" asp-action="SMList">Social Tag</a>
+                    <a asp-controller="Admin" asp-action="Index">Admin</a>
+                    <a asp-controller="Admin" asp-action="MasterBlogList">Blog</a>
+                    <a asp-controller="Admin" asp-action="MasterProductList">Product</a>
+                    <a  asp-controller="Admin" asp-action="MasterSoftwareList">Software</a>
+                </div>
+            </div>
+        </div>
+        <button href="#" class="dropdown-btn btn-default" style="text-align: center;">Master Controls</button>
+        <div class="dropdown-container" style="text-align: center;">
+            <div class="tags-widget">
+                <div>
+                    <br/>
+                    <a asp-controller="Admin" asp-action="UsersList">Users</a>
+                    <a asp-controller="Admin" asp-action="UserRoles">Roles</a>
+                    <a asp-controller="Admin" asp-action="SubscriberList">Subscribers</a>
+                    <a asp-controller="Admin" asp-action="LogList">Log</a>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <ul class="nav nav-pills flex-column text-center">
+        <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+    </ul>
+}

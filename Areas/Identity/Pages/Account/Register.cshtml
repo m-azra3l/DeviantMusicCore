@@ -1,0 +1,190 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Create Member";
+     Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Create Member</h3>
+            <hr />
+        <form class="container-fluid" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group row">
+
+                <div class="col-md-6">
+
+                    <label asp-for="Input.Name"></label>
+                    <input asp-for="Input.Name" class="form-control" />
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    <br/>
+
+                    <label asp-for="Input.UserName"></label>
+                    <input asp-for="Input.UserName" class="form-control" />
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                    <br/>
+                                        
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    <br/>
+                
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <br/>
+                
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    <br/>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label asp-for="Input.Designation"></label>
+                    <input asp-for="Input.Designation" class="form-control" />
+                    <span asp-validation-for="Input.Designation" class="text-danger"></span>
+                    <br/>
+
+                    <label asp-for="Input.UserImage">AVI (Optional, 512kb max)</label>
+                    <input type="file" name="UserImage" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" class="form-control"/>   
+                    <span asp-validation-for="Input.UserImage" class="text-danger"></span>
+                    <br/>
+
+                    <label>Role (Optional)</label>
+                    <div class="col-md-10">
+                        <label asp-for="Input.IsMaster">
+                            <input type="checkbox" id="check1" asp-for="Input.IsMaster"/> Master    
+                        </label>
+                        <label asp-for="Input.IsSuperAdmin">
+                            <input type="checkbox" id="check4" asp-for="Input.IsSuperAdmin"/> Super Admin
+                        </label> 
+                        <label asp-for="Input.IsAdmin">
+                            <input type="checkbox" id="check2" asp-for="Input.IsAdmin"/> Admin
+                        </label>
+                        <label asp-for="Input.IsMember">
+                            <input type="checkbox" id="check3" asp-for="Input.IsMember"/> Member    
+                        </label>  
+                    </div> 
+                    <br/>
+
+                    <label>Type</label>
+                    <div class="col-md-10">
+                        <label asp-for="Input.IsArtiste">
+                            <input type="checkbox" asp-for="Input.IsArtiste"/> Artiste    
+                        </label> 
+                        <label asp-for="Input.IsTeam">
+                            <input type="checkbox" asp-for="Input.IsTeam"/> Team 
+                        </label> 
+                    </div> 
+                    <br/>
+
+                    <button type="submit" class="btn btn-success">Create</button>
+                    <a asp-controller="Admin" asp-action="UsersList" class="btn btn-primary">Back</a>
+
+                </div>
+            </div>
+        </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+     $(function ($checking) {
+            var $chk1 = $(":input:CheckBox[id$=check1]");
+            var $chk2 = $(":input:CheckBox[id$=check2]");
+            var $chk3 = $(":input:CheckBox[id$=check3]");
+            var $chk4 = $(":input:CheckBox[id$=check4]");
+            checkChecked($chk1);
+            $chk1.click(function()
+            {
+                checkChecked($chk1);
+            }
+            );
+            function checkChecked(chkBox) {
+                if ($chk1.is(':checked')) {
+                    $chk2.attr('disabled','disabled');
+                    $chk3.attr('disabled','disabled');
+                    $chk4.attr('disabled','disabled');
+                }
+                else {
+                    $chk2.removeAttr('disabled','disabled');
+                    $chk3.removeAttr('disabled','disabled');
+                    $chk4.removeAttr('disabled','disabled');
+                }
+            }
+        });
+        $(function ($checking2) {
+            var $chk1 = $(":input:CheckBox[id$=check1]");
+            var $chk2 = $(":input:CheckBox[id$=check2]");
+            var $chk3 = $(":input:CheckBox[id$=check3]");
+            var $chk4 = $(":input:CheckBox[id$=check4]");
+            checkChecked($chk2);
+            $chk2.click(function()
+            {
+                checkChecked($chk2);
+            }
+            );
+            function checkChecked(chkBox) {
+                if ($chk2.is(':checked')) {
+                    $chk1.attr('disabled','disabled');
+                    $chk3.attr('disabled','disabled');
+                    $chk4.attr('disabled','disabled');
+                }
+                else {
+                    $chk1.removeAttr('disabled','disabled');
+                    $chk3.removeAttr('disabled','disabled');
+                    $chk4.removeAttr('disabled','disabled');
+                }
+            }
+        });
+        $(function ($checking3) {
+            var $chk1 = $(":input:CheckBox[id$=check1]");
+            var $chk2 = $(":input:CheckBox[id$=check2]");
+            var $chk3 = $(":input:CheckBox[id$=check3]");
+            var $chk4 = $(":input:CheckBox[id$=check4]");
+            checkChecked($chk3);
+            $chk3.click(function()
+            {
+                checkChecked($chk3);
+            }
+            );
+            function checkChecked(chkBox) {
+                if ($chk3.is(':checked')) {
+                    $chk1.attr('disabled','disabled');
+                    $chk2.attr('disabled','disabled');
+                    $chk4.attr('disabled','disabled');
+                }
+                else {
+                    $chk1.removeAttr('disabled','disabled');
+                    $chk2.removeAttr('disabled','disabled');
+                    $chk4.removeAttr('disabled','disabled');
+                }
+            }
+        });
+        $(function ($checking4) {
+            var $chk1 = $(":input:CheckBox[id$=check1]");
+            var $chk2 = $(":input:CheckBox[id$=check2]");
+            var $chk3 = $(":input:CheckBox[id$=check3]");
+            var $chk4 = $(":input:CheckBox[id$=check4]");
+            checkChecked($chk4);
+            $chk4.click(function()
+            {
+                checkChecked($chk4);
+            }
+            );
+            function checkChecked(chkBox) {
+                if ($chk4.is(':checked')) {
+                    $chk1.attr('disabled','disabled');
+                    $chk2.attr('disabled','disabled');
+                    $chk3.attr('disabled','disabled');
+                }
+                else {
+                    $chk1.removeAttr('disabled','disabled');
+                    $chk2.removeAttr('disabled','disabled');
+                    $chk3.removeAttr('disabled','disabled');
+                }
+            }
+        });
+    </script>
+}

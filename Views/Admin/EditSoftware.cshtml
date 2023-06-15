@@ -1,0 +1,132 @@
+@model DeviantMusicCore.Models.Software
+
+@{
+    ViewData["Title"] = "Edit Software";
+    Layout = "_AdminLayout";
+}
+<h3>Edit Software</h3>
+<form method="post" enctype="multipart/form-data" class="container-fluid" asp-action="EditSoftware">
+    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p>Select Developer Type<br/></p>
+        </div>
+        <div class="col-md-12">
+            <label>Developer Type</label>
+            <select class="form-control text-center" id="developertype">
+                <option value="selecttype">-- Select Type --</option>
+                <option value="Indie">Independent Developer</option>
+                <option value="Managed">Managed Developer</option>
+            </select>
+            <br/>
+        </div> 
+    </div>
+    <div class="form-group row" id="mainproduct" style="display: none;">
+         <div class="col-md-6">
+            <label>Uploader</label>
+            <select asp-for="Uploader" asp-items="ViewBag.Uploader" class="form-control text-center"><option value="">-- Select Uploader --</option></select>
+            <br/>
+        </div>   
+        <div class="col-md-12" id="developerbinder" style="display: none;">
+            <label>Developer (For Managed Developers Only)</label>
+            <select asp-for="DeveloperId" asp-items="ViewBag.DeveloperId" class="form-control text-center"><option value="">-- Select Developer --</option></select>
+            <br/>
+        </div>   
+        <div class="col-md-12">
+            <label>License Binder</label>
+            <select asp-for="ExtrasLicenseId" asp-items="ViewBag.LicenseId" class="form-control text-center" id="license"><option value="">-- Select License --</option></select>
+            <span asp-validation-for="ExtrasLicenseId" class="text-danger"></span>
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Type Binder</label>
+            <select asp-for="SoftwareTypeId" asp-items="ViewBag.SoftwareTypeId" class="form-control text-center"><option value="">-- Select Type --</option></select>
+            <span asp-validation-for="SoftwareTypeId" class="text-danger"></span>
+            <br/>           
+        </div>  
+        <div class="col-md-12">
+            <label>Name</label>
+            <Input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+            <br/>
+        </div>
+        <div class="col-md-12" id="developername" style="display: none;">
+            <label>Developer Name</label>
+            <Input asp-for="ExternalDeveloper" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Url (Name and replace any space with underscore(" _ "))</label>
+            <Input asp-for="Url" class="form-control" />
+            <span asp-validation-for="Url" class="text-danger"></span>
+            <br/>
+            <label>Release Date: @Model.ReleaseDate.ToString("dd/MMM/yyyy"), Select New Date?</label>
+            <Input asp-for="ReleaseDate" asp-format="{0:dd/MMM/yyyy}" class="form-control" />
+            <span asp-validation-for="Url" class="text-danger"></span>
+            <br/>
+            <label>Download Url</label>
+            <Input asp-for="DownloadURL" class="form-control" />
+            <span asp-validation-for="DownloadURL" class="text-danger"></span>
+            <br/>
+        </div>
+        <div class="col-md-12" id="purchase" style="display: none;">
+            <label>Price</label>
+            <Input asp-for="Price" class="form-control" />
+            <br/>
+            <label>Purchase Url (If any)</label>
+            <Input asp-for="PurchaseURL" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Image (less than 512kb)</label>
+            <input type="file" name="ImageFile" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" class="form-control"/>
+            <br/>
+            <label>Description</label>
+            <textarea asp-for="Description" rows="20"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <br />
+            <input type="submit" class="btn btn-success" value="Update" />
+            <input type="button" value="Back" onclick="window.history.back();" class="btn btn-primary"/>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script>
+        $(document).ready(function ()
+        {
+            $('#artistetype').change(function()
+            {
+                if($(this).val() == 'selecttype')
+                {
+                    $("#mainproduct").hide()
+                    $("#developerbinder").hide()
+                    $("#developername").hide()
+                }
+                if($(this).val() == 'Indie')
+                {
+                    $("#mainproduct").show()
+                    $("#developerbinder").hide()
+                    $("#developername").show()
+                }
+                if($(this).val() == 'Managed')
+                {
+                    $("#mainproduct").show()
+                    $("#developerbinder").show()
+                    $("#developername").hide()
+                }
+            });
+            $("#license").change(function()
+            {
+                if($(this).val() == 1)
+                {
+                    $("#purchase").hide()
+                }
+                if($(this).val() == 2)
+                {
+                    $("#purchase").show()
+                }
+            });
+        });
+    </script>
+}

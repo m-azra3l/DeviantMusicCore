@@ -1,0 +1,31 @@
+@model DeviantMusicCore.Models.Audit
+
+@{
+    ViewData["Title"] = "Log Detail";
+    Layout = "_AdminLayout";
+}
+<h3>Log Detail</h3>
+<form method="post" action="DeleteLog">
+    <div class="row">
+        <div class="col-md-12">
+            <label>Action By: </label>@Model.UserName
+            <br/>
+            <label>Type: </label>@Model.Type
+            <br/>
+            <label>Table: </label>@Model.TableName
+            <br/>
+            <label>Data Key: </label>@Model.PrimaryKey
+            <br/>
+            <label>Time: </label>@Model.DateTime
+            <br/>
+            <label>Old Value(s): </label>@Model.OldValues
+            <br/>
+            <label>New Value(s): </label>@Model.NewValues
+            <br/>
+            <label>Affected Column(s): </label>@Model.AffectedColumns
+            <br/>
+        </div>
+        <button  type="submit" class="btn btn-danger" asp-action="DeleteLog" asp-route-id="@Model.Id">Delete</button>
+        <a asp-action="LogList" class="btn btn-primary">Back</a>
+    </div>
+</form>

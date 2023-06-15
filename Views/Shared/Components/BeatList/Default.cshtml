@@ -1,0 +1,46 @@
+@model IEnumerable<DeviantMusicCore.Models.Beat>
+
+<div class="list-heading">
+    <h4 class="mb-0">New Beats</h4>
+</div>
+<div class="wrapper d-flex flex-wrap align-items-center justify-content-between">
+    @foreach(var product in Model)
+    {
+        <div class="product card rounded-0">
+            @if(product.Image!=null)
+            {
+                <a href="#"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(product.Image))" alt="@product.Title"></a>
+            }
+            else
+            {
+                <a href="#"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@product.Title"></a>
+            }
+            <div class="card-body p-0">
+                @if(product.ProducerId != null)
+                {
+                    <h6 class="card-title bg-white px-1 mb-0"><a href="#" class="text-decoration-none">@product.Producer.StageName - @product.Title</a></h6>
+                }
+                else
+                {
+                    <h6 class="card-title bg-white px-1 mb-0"><a href="#" class="text-decoration-none">@product.ExternalProducer - @product.Title</a></h6>
+                }
+                <div class="card-text bg-light">
+                    @if(product.ExtrasLicense.License == "Paid")
+                    {
+                        @String.Format("{0:F}", product.Price)
+                    }
+                    else
+                    {
+                        <div class="border-top p-1 text-center">@product.ExtrasLicense.License</div>
+                    }
+                </div>
+            </div>
+            <div class="product-tag">
+                @product.Genre.Name
+            </div>
+        </div>
+    }
+</div>
+<div class="view-more-container my-5">
+    <a class="view-more d-block mx-auto text-decoration-none border" asp-controller="Product" asp-action="BeatLibrary">View More</a>
+</div>

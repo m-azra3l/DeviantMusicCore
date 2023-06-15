@@ -1,0 +1,165 @@
+@model PaginatedList<DeviantMusicCore.Models.Product>
+
+@{
+    ViewBag.Title = "Library";
+}
+<div class="wrapper">
+    <div class="row">
+        <div class="list-heading col-6">
+            <h2 class="mb-0">Library</h2>
+        </div>
+        <div class="col-6 text-right">
+                <a asp-action="TopDownloads">Top Downloads</a>
+        </div>
+        <br/>
+    </div>
+    <form class="form-inline-md ml-3" asp-action="Index" method="get">
+            <div class="col-md-12">
+                <div class="input-group input-group-md">
+                    <input style="text-align: center;" class="form-control form-control-navbar" type="text" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Search Library" aria-label="Search">
+                    <div class="input-group-append">
+                        <button title="Search" class="btn btn-outline-secondary rounded-0" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <a title="Clear" class="btn btn-outline-secondary rounded-0" asp-action="Index"><i class="fas fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+            <br/>
+    </form>
+    <div class="row">
+        <div class="col-4">
+            <select name="genre" asp-items="ViewBag.Genre" onchange="this.form.submit();" class="form-control text-center"><option value="">Genre</option></select>
+        </div>
+        <div class="col-4">
+            <select name="license" asp-items="ViewBag.ProductLicense" onchange="this.form.submit();" class="form-control text-center" id="license"><option value="">License</option></select>
+        </div>
+        <div class="col-4">
+            <select name="tag" asp-items="ViewBag.ProductType" onchange="this.form.submit();" class="form-control text-center" id="typebinder"><option value="">Type</option></select>
+        </div>
+        <br/>
+    </div>
+    <div class="wrapper d-flex flex-wrap align-items-center justify-content-between">
+        @foreach(var product in Model)
+        {
+            <div class="product card rounded-0">
+                @if(product.ProductType.Tag == "Album")
+                {
+                    @if(product.ProductImage!=null)
+                    {
+                        <a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(product.ProductImage))" alt="@product.Title"></a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@product.Title"></a>
+                    }
+                }
+                else if(product.ProductType.Tag == "EP")
+                {
+                    @if(product.ProductImage!=null)
+                    {
+                        <a asp-controller="Library" asp-action="EPDetails" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(product.ProductImage))" alt="@product.Title"></a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Library" asp-action="EPDetails" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@product.Title"></a>
+                    }
+                }
+                else
+                {
+                    @if(product.ProductImage!=null)
+                    {
+                        <a asp-controller="Library" asp-action="Details" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(product.ProductImage))" alt="@product.Title"></a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Library" asp-action="Details" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@product.Title"></a>
+                    }
+                }
+                <div class="card-body p-0">
+                    @if(product.ProductType.Tag == "Album")
+                    {
+                        @if(product.ArtisteId != null)
+                        {
+                            <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@product.Url" class="text-decoration-none">@product.Artiste.StageName - @product.Title</a></h6>
+                        }
+                        else
+                        {
+                            <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@product.Url" class="text-decoration-none">@product.ArtisteName - @product.Title</a></h6>
+                        }
+                    }
+                    else if(product.ProductType.Tag == "EP")
+                    {
+                        @if(product.ArtisteId != null)
+                        {
+                            <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="EPDetails" asp-route-id="@product.Url" class="text-decoration-none">@product.Artiste.StageName - @product.Title</a></h6>
+                        }
+                        else
+                        {
+                            <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="EPDetails" asp-route-id="@product.Url" class="text-decoration-none">@product.ArtisteName - @product.Title</a></h6>
+                        }
+                    }
+                    else
+                    {
+                        @if(product.ArtisteId != null)
+                        {
+                            <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="Details" asp-route-id="@product.Url" class="text-decoration-none">@product.Artiste.StageName - @product.Title</a></h6>
+                        }
+                        else
+                        {
+                            <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="Details" asp-route-id="@product.Url" class="text-decoration-none">@product.ArtisteName - @product.Title</a></h6>
+                        }
+                    }
+                    <div class="card-text bg-light">
+                        <div class="border-top p-1 text-center">@product.ProductLicense.License</div>
+                    </div>
+                </div>
+                <div class="product-tag">
+                    @product.ProductType.Tag
+                </div>
+            </div>
+        }
+    </div>
+    <div class="pagination-container my-5">
+        <ul class="pagination d-flex justify-content-center">
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                var firstDisabled = !Model.HasFirstPage ? "disabled" : "";
+                var lastDisabled = !Model.HasLastPage ? "disabled" : "";
+            }
+
+            <a asp-action="Index"
+            asp-route-pageNumber="1"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="First Page"
+            class="btn btn-outline-secondary rounded-0 @firstDisabled">
+                <i class="fas fa-angle-double-left fa-lg"></i>
+            </a>
+
+            <a asp-action="Index"
+            asp-route-pageNumber="@(Model.PageIndex - 1)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Prev Page"
+            class="btn btn-outline-secondary rounded-0 @prevDisabled">
+                <i class="fas fa-angle-left fa-lg"></i>
+            </a>
+
+            <a asp-action="Index"
+            asp-route-pageNumber="@(Model.PageIndex + 1)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Next Page"
+            class="btn btn-outline-secondary rounded-0 @nextDisabled">
+                <i class="fas fa-angle-right fa-lg"></i>
+            </a>
+
+            <a asp-action="Index"
+            asp-route-pageNumber="@(Model.TotalPages)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Last Page"
+            class="btn btn-outline-secondary rounded-0 @lastDisabled">
+                <i class="fas fa-angle-double-right fa-lg"></i>
+            </a>
+        </ul>
+    </div>
+</div>

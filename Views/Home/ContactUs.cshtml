@@ -1,0 +1,58 @@
+@using Microsoft.AspNetCore.Html
+
+@model DeviantMusicCore.Models.ContactMail
+
+@{
+    ViewBag.Title = "Contact Us";
+}
+
+<h2>Contact Us</h2>
+    @(new HtmlString(@ViewBag.Alert))
+    <address>
+        One Microsoft Way<br />
+        Redmond, WA 98052-6399<br />
+        <abbr title="Phone">P:</abbr>
+        425.555.0100
+        <br />
+    </address>
+    <address>
+        <strong>Contact:</strong> <a href="mailto:contact@deviantmusic.one">contact@deviantmusic.one</a><br />
+        <strong>Retail:</strong> <a href="mailto:retail@deviantmusic.one">retail@deviantmusic.one</a><br />
+        <strong>Support:</strong> <a href="mailto:support@deviantmusic.one">support@deviantmusic.one</a><br />
+    </address>
+    <h4>Contact Form</h4>
+    <p >
+        Please make your request clear and well detailed.<br>
+    </p>
+    <form method="post" enctype="multipart/form-data" class="container-fluid" asp-action="ContactUs">
+        <label>To&nbsp;</label><label class="text-danger text-sm">*</label><span asp-validation-for="emailTo" class="text-danger text-sm">Required</span>
+        <select asp-for="emailTo" asp-items="ViewBag.MailTo" class="form-control text-center"></select>
+        <br/>
+        <label>Name&nbsp;</label><label class="text-danger text-sm">*</label><span asp-validation-for="Name" class="text-danger text-sm">Required</span>
+        <Input asp-for="Name" class="form-control" />            
+        <br/>
+        <label>Phone&nbsp;</label><label class="text-danger text-sm">*</label><span asp-validation-for="Tel" class="text-danger text-sm">Required</span>
+        <Input asp-for="Tel" class="form-control" />            
+        <br/>
+        <label>Email&nbsp;</label><label class="text-danger text-sm">*</label><span asp-validation-for="Email" class="text-danger text-sm">Required</span>
+        <Input asp-for="Email" class="form-control" />
+        <br/>
+        <label>Subject&nbsp;</label><label class="text-danger text-sm">*</label><span asp-validation-for="Subject" class="text-danger text-sm">Required</span>
+        <Input asp-for="Subject" class="form-control" />
+        <br/>
+        <label>Attacment (less than 1mb)</label>
+        <input type="file" name="ImageFile" id="fileUpload" class="form-control"/>
+        <br/>
+        <label>Message&nbsp;</label><label class="text-danger text-sm">*</label><span asp-validation-for="Message" class="text-danger text-sm">Required</span>
+        <textarea asp-for="Message" rows="20"></textarea>
+        <br/>
+        <input type="submit" class="btn btn-outline-success" value="Send" />
+        <br/>
+    </form>
+
+<script src="~/lib/tinymce/tinymce.min.js"></script>  
+<script>
+    tinymce.init({selector:'textarea',
+                    toolbar: 'undo redo | bold italic underline blockquote | alignleft aligncenter alignright alignjustify | outdent indent | help',
+                    menubar: false});
+</script>

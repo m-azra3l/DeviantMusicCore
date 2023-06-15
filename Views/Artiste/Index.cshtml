@@ -1,0 +1,76 @@
+@model PaginatedList<DeviantMusicCore.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Managed Artistes";
+}
+
+<div class="wrapper">
+    <div class="wrapper">
+        <div class="list-heading">
+            <h2 class="mb-0">Managed Artistes</h2>
+            <br/>
+        </div>
+        <div class="wrapper d-flex flex-wrap align-items-center justify-content-between">
+            @foreach(var user in Model)
+            {
+                <div class="artiste card rounded-0">
+                    @if(user.UserImage != null)
+                    {
+                        <a asp-action="Artiste" asp-route-id="@user.UserName"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(user.UserImage))" alt="@user.StageName"></a>
+                    }
+                    else
+                    {
+                        <a asp-action="Artiste" asp-route-id="@user.UserName"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@user.StageName"></a>
+                    }
+                    <div class="card-body bg-light p-1">
+                        <br/>
+                        <h6 class="card-title bg-light mb-0 text-center"><a asp-action="Artiste" asp-route-id="@user.UserName" class="text-decoration-none">@user.StageName</a></h6>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="pagination-container my-5">
+            <ul class="pagination d-flex justify-content-center">
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                    var firstDisabled = !Model.HasFirstPage ? "disabled" : "";
+                    var lastDisabled = !Model.HasLastPage ? "disabled" : "";
+                }
+
+                <a asp-action="Index"
+                asp-route-pageNumber="1"
+                asp-route-currentFilter="@ViewBag.CurrentFilter"
+                title="First Page"
+                class="btn btn-outline-secondary rounded-0 @firstDisabled">
+                    <i class="fas fa-angle-double-left fa-lg"></i>
+                </a>
+
+                <a asp-action="Index"
+                asp-route-pageNumber="@(Model.PageIndex - 1)"
+                asp-route-currentFilter="@ViewBag.CurrentFilter"
+                title="Prev Page"
+                class="btn btn-outline-secondary rounded-0 @prevDisabled">
+                    <i class="fas fa-angle-left fa-lg"></i>
+                </a>
+
+                <a asp-action="Index"
+                asp-route-pageNumber="@(Model.PageIndex + 1)"
+                asp-route-currentFilter="@ViewBag.CurrentFilter"
+                title="Next Page"
+                class="btn btn-outline-secondary rounded-0 @nextDisabled">
+                    <i class="fas fa-angle-right fa-lg"></i>
+                </a>
+
+                <a asp-action="Index"
+                asp-route-pageNumber="@(Model.TotalPages)"
+                asp-route-currentFilter="@ViewBag.CurrentFilter"
+                title="Last Page"
+                class="btn btn-outline-secondary rounded-0 @lastDisabled">
+                    <i class="fas fa-angle-double-right fa-lg"></i>
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
+

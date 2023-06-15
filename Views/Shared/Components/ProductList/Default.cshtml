@@ -1,0 +1,89 @@
+@model IEnumerable<DeviantMusicCore.Models.Product>
+
+<div class="list-heading">
+    <h4 class="mb-0">Freshly Made</h4>
+</div>
+<div class="wrapper d-flex flex-wrap align-items-center justify-content-between">
+    @foreach(var product in Model)
+    {
+        <div class="product card rounded-0">
+            @if(product.ProductType.Tag == "Album")
+            {
+                @if(product.ProductImage!=null)
+                {
+                    <a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(product.ProductImage))" alt="@product.Title"></a>
+                }
+                else
+                {
+                    <a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@product.Title"></a>
+                }
+            }
+            else if(product.ProductType.Tag == "EP")
+            {
+                @if(product.ProductImage!=null)
+                {
+                    <a asp-controller="Library" asp-action="EPDetails" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(product.ProductImage))" alt="@product.Title"></a>
+                }
+                else
+                {
+                    <a asp-controller="Library" asp-action="EPDetails" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@product.Title"></a>
+                }
+            }
+            else
+            {
+                @if(product.ProductImage!=null)
+                {
+                    <a asp-controller="Library" asp-action="Details" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="data:image/*;base64,@(Convert.ToBase64String(product.ProductImage))" alt="@product.Title"></a>
+                }
+                else
+                {
+                    <a asp-controller="Library" asp-action="Details" asp-route-id="@product.Url"><img class="card-img-top bg-white rounded-0" src="~/Images/placeholder.png" alt="@product.Title"></a>
+                }
+            }
+            <div class="card-body p-0">
+                @if(product.ProductType.Tag == "Album")
+                {
+                    @if(product.ArtisteId != null)
+                    {
+                        <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@product.Url" class="text-decoration-none">@product.Artiste.StageName - @product.Title</a></h6>
+                    }
+                    else
+                    {
+                        <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="AlbumDetails" asp-route-id="@product.Url" class="text-decoration-none">@product.ArtisteName - @product.Title</a></h6>
+                    }
+                }
+                else if(product.ProductType.Tag == "EP")
+                {
+                    @if(product.ArtisteId != null)
+                    {
+                        <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="EPDetails" asp-route-id="@product.Url" class="text-decoration-none">@product.Artiste.StageName - @product.Title</a></h6>
+                    }
+                    else
+                    {
+                        <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="EPDetails" asp-route-id="@product.Url" class="text-decoration-none">@product.ArtisteName - @product.Title</a></h6>
+                    }
+                }
+                else
+                {
+                    @if(product.ArtisteId != null)
+                    {
+                        <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="Details" asp-route-id="@product.Url" class="text-decoration-none">@product.Artiste.StageName - @product.Title</a></h6>
+                    }
+                    else
+                    {
+                        <h6 class="card-title bg-white px-1 mb-0"><a asp-controller="Library" asp-action="Details" asp-route-id="@product.Url" class="text-decoration-none">@product.ArtisteName - @product.Title</a></h6>
+                    }
+                }
+                <div class="card-text bg-light">
+                    <div class="border-top p-1 text-center">@product.ProductLicense.License</div>
+                </div>
+            </div>
+            <div class="product-tag">
+                @product.ProductType.Tag
+            </div>
+        </div>
+    }
+</div>
+<div class="view-more-container my-5">
+    <a class="view-more d-block mx-auto text-decoration-none border" asp-controller="Library" asp-action="Index">View More</a>
+</div>

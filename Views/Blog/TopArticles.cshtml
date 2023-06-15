@@ -1,0 +1,101 @@
+@model PaginatedList<DeviantMusicCore.Models.BlogItem>
+
+@{
+    ViewData["Title"] = "Top Articles";
+}
+<div class="wrapper">
+    <div class="row">
+        <div class="list-heading col-6">
+            <h2 class="mb-0">Top Articles</h2>
+        </div>
+        <div class="col-6 text-right">
+                <a asp-action="Index">Back to Blog</a>
+        </div>
+        <br/>
+    </div>
+    <div class="wrapper d-flex flex-wrap align-items-center justify-content-between">
+        @foreach(var blog in Model)
+        {
+            <div class="blog-post d-flex border">
+                <div class="blog-post-thumbnail-container d-flex align-items-center justify-content-center">
+                    @if(blog.PostImage != null)
+                    {
+                        <a asp-controller="Blog" asp-action="Article" asp-route-id="@blog.BlogItemUrl"><img class="blog-post-thumbmail" src="data:image/*;base64,@(Convert.ToBase64String(blog.PostImage))" alt="@blog.Title"></a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Blog" asp-action="Article" asp-route-id="@blog.BlogItemUrl"><img class="blog-post-thumbmail" src="~/Images/blogplaceholder.png" alt="@blog.Title"></a>
+                    }
+                </div>
+                <div class="blog-tag">
+                    @blog.BlogCategory.Category
+                </div>
+                <div class="blog-post-details-container p-1">
+                    <br/>
+                    <div class="blog-post-title-container mb-3">
+                        <a class="text-decoration-none" asp-controller="Blog" asp-action="Article" asp-route-id="@blog.BlogItemUrl"><h4 class="blog-post-title">@blog.Title</h4></a>
+                    </div>
+                    <div class="pub-info-container d-flex align-items-center">
+                        <div class="mr-4">
+                            @if(blog.Author.UserImage != null)
+                            {
+                                <img alt="@blog.Author.UserName" class="author-image border mr-2" src="data:image/*;base64,@(Convert.ToBase64String(blog.Author.UserImage))">
+                            }
+                            else
+                            {
+                                <img alt="@blog.Author.UserName" class="author-image border mr-2" src="~/Images/placeholder.png">
+                            }
+                            <a asp-controller="Team" asp-action="Member" asp-route-id="@blog.Author.UserName"><span class="mr-2">@blog.Author.Name</span></a>
+                        </div>
+                        <div>
+                            <span class="mr-2">&nbsp;&#x1F552;</span> <span>@blog.PublishDate.ToString("dd/MMM/yyyy")</span>
+                            <span class="mr-2">&nbsp;<i class="far fa-eye"></i></span> <span>@blog.Views</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="pagination-container my-5">
+        <ul class="pagination d-flex justify-content-center">
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                var firstDisabled = !Model.HasFirstPage ? "disabled" : "";
+                var lastDisabled = !Model.HasLastPage ? "disabled" : "";
+            }
+
+            <a asp-action="TopArticles"
+            asp-route-pageNumber="1"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="First Page"
+            class="btn btn-outline-secondary rounded-0 @firstDisabled">
+                <i class="fas fa-angle-double-left fa-lg"></i>
+            </a>
+
+            <a asp-action="TopArticles"
+            asp-route-pageNumber="@(Model.PageIndex - 1)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Prev Page"
+            class="btn btn-outline-secondary rounded-0 @prevDisabled">
+                <i class="fas fa-angle-left fa-lg"></i>
+            </a>
+
+            <a asp-action="TopArticles"
+            asp-route-pageNumber="@(Model.PageIndex + 1)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Next Page"
+            class="btn btn-outline-secondary rounded-0 @nextDisabled">
+                <i class="fas fa-angle-right fa-lg"></i>
+            </a>
+
+            <a asp-action="TopArticles"
+            asp-route-pageNumber="@(Model.TotalPages)"
+            asp-route-currentFilter="@ViewBag.CurrentFilter"
+            title="Last Page"
+            class="btn btn-outline-secondary rounded-0 @lastDisabled">
+                <i class="fas fa-angle-double-right fa-lg"></i>
+            </a>
+        </ul>
+    </div>
+</div>

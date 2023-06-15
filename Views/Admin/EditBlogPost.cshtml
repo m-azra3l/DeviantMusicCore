@@ -1,0 +1,55 @@
+@model DeviantMusicCore.Models.BlogItem
+
+@{
+    ViewData["Title"] = "EditBlogPost";
+    Layout = "_AdminLayout";
+}
+<h3>Edit Blog Post</h3>
+<form method="post" enctype="multipart/form-data" class="container-fluid" asp-action="EditBlogPost">
+    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label>Author</label>
+            <select asp-for="AuthorId" asp-items="ViewBag.AuthorId" class="form-control text-center"><option value="">--Select Author--</option></select>
+            <span asp-validation-for="AuthorId" class="text-danger"></span>
+            <br/>
+        </div>
+        <div class="col-md-6">
+            <label>Category</label>
+            <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-control text-center"><option value="">--Select Category--</option></select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <br/>
+        </div>
+        <div class="col-md-6">
+            <label>Views</label>
+            <Input asp-for="Views" class="form-control" />
+            <br/>
+        </div>
+        <div class="col-md-12">
+            <label>Title</label>
+            <Input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+             <br/> 
+        </div>
+        <div class="col-md-12"> 
+            <label>Post Url(Title and replace any space with underscore("_"))</label>
+            <Input asp-for="BlogItemUrl" class="form-control" />
+            <span asp-validation-for="BlogItemUrl" class="text-danger"></span>
+            <br/> 
+        </div> 
+        <div class="col-md-12">
+            <label>Post Image(512kb max size)</label>
+            <input type="file" name="PostImage" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" class="form-control"/>
+            <br/>
+        </div>
+        <div class="col-md-12"> 
+            <label>Article</label>
+            <textarea asp-for="Article" rows="20"></textarea>
+            <span asp-validation-for="Article" class="text-danger"></span>
+            <br />
+            <input type="submit" class="btn btn-success" value="Update" />
+            <input type="button" value="Back" onclick="window.history.back();" class="btn btn-primary"/>
+        </div>
+    </div>
+</form>

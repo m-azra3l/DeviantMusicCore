@@ -1,0 +1,51 @@
+@model IEnumerable<DeviantMusicCore.Models.BlogItem>
+    
+<div class="list-heading">
+    <h4 class="mb-0">Recent Blog Posts</h4>
+</div>
+<div class="wrapper d-flex flex-wrap align-items-center justify-content-between">
+    @foreach(var blog in Model)
+    {
+        <div class="blog-post d-flex border">
+            <div class="blog-post-thumbnail-container d-flex align-items-center justify-content-center">
+                @if(blog.PostImage != null)
+                {
+                    <a asp-controller="Blog" asp-action="Article" asp-route-id="@blog.BlogItemUrl"><img class="blog-post-thumbmail" src="data:image/*;base64,@(Convert.ToBase64String(blog.PostImage))" alt="@blog.Title"></a>
+                }
+                else
+                {
+                    <a asp-controller="Blog" asp-action="Article" asp-route-id="@blog.BlogItemUrl"><img class="blog-post-thumbmail" src="~/Images/blogplaceholder.png" alt="@blog.Title"></a>
+                }
+            </div>
+            <div class="blog-tag">
+                @blog.BlogCategory.Category
+            </div>
+            <div class="blog-post-details-container p-1">
+                <br/>
+                <div class="blog-post-title-container mb-3">
+                    <a class="text-decoration-none" asp-controller="Blog" asp-action="Article" asp-route-id="@blog.BlogItemUrl"><h4 class="blog-post-title">@blog.Title</h4></a>
+                </div>
+                <div class="pub-info-container d-flex align-items-center">
+                    <div class="mr-4">
+                        @if(blog.Author.UserImage != null)
+                        {
+                            <img alt="@blog.Author.UserName" class="author-image border mr-2" src="data:image/*;base64,@(Convert.ToBase64String(blog.Author.UserImage))">
+                        }
+                        else
+                        {
+                            <img alt="@blog.Author.UserName" class="author-image border mr-2" src="~/Images/placeholder.png">
+                        }
+                        <a asp-controller="Team" asp-action="Member" asp-route-id="@blog.Author.UserName"><span class="mr-2">@blog.Author.Name</span></a>
+                    </div>
+                    <div>
+                        <span class="mr-2">&nbsp;&#x1F552;</span> <span>@blog.PublishDate.ToString("dd/MMM/yyyy")</span>
+                        <span class="mr-2">&nbsp;<i class="far fa-eye"></i></span> <span>@blog.Views</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="view-more-container my-5">
+    <a class="view-more d-block mx-auto text-decoration-none border" asp-controller="Blog" asp-action="Index">View More</a>
+</div>

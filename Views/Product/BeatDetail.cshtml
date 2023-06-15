@@ -1,0 +1,168 @@
+@using Microsoft.AspNetCore.Html
+@using DeviantMusicCore.Logic
+
+@model DeviantMusicCore.Models.Beat
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+@(new HtmlString(@ViewBag.Alert))
+<div class="wrapper">
+    <div class="list-heading">
+        <div class="row">
+            <div class="col6">
+                <h2 class="mb-0">@Model.Title</h2>
+            </div>
+            <div class="col-6 text-right">
+                @if(User.IsInRole(Roles.Master))
+                {
+                    <a type="button" class="btn btn-primary" asp-controller="Admin"  asp-action="EditBeat" asp-route-id="@Model.Id">Edit</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="generic-image-container shadow-sm mb-3 mb-md-0 mx-auto">
+                    @if(Model.Image != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt="@Model.Title">
+                    }
+                    else
+                    {
+                        <img src="~/Images/placeholder.png" alt="@Model.Title">
+                    }
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="generic-details-container">
+                    <div class="artiste-">
+                        @if(Model.ProducerId != null)
+                        {
+                            <a asp-controller="Artiste" asp-action="Artiste" asp-route-id="@Model.Producer.UserName"><span class="font-weight-bold">Producer: @Model.Producer.StageName</span></a>
+                        }
+                        else
+                        {
+                            <span class="font-weight-bold">Producer: @Model.ExternalProducer</span>
+                        }<br/>
+                    </div>
+                    <div class="release-date"><span class="font-weight-bold">Release Date: </span> @Model.ReleaseDate.ToString("dd/MMM/yyyy")<br/></div>
+                    <div class="upload-date"><span class="font-weight-bold">Upload Date: </span> @Model.UploadDate.ToString("dd/MMM/yyyy")<br/></div>
+                    <div class="genre"><span class="font-weight-bold">Genre: </span>@Model.Genre.Name<br/></div>
+                    <div class="license">
+                        @if(Model.ExtrasLicense.License == "Paid")
+                        {
+                            <span class="font-weight-bold">Price: @String.Format("{0:F}", Model.Price)</span>
+                        }
+                        else
+                        {
+                            <span class="font-weight-bold">License: @Model.ExtrasLicense.License</span>
+                        }<br/>
+                    </div>
+                    @if(Model.ExtrasLicense.License != "Paid")
+                    {
+                        <div class="download-count"><span class="font-weight-bold">Downloads: </span> @Model.DownloadCount<br/></div>
+                    }
+                    
+                    <h5 class="mt-1">Description</h5>
+                    <div class="description wrapper">
+                        <markdown normalize-whitespace="false" sanitize-html="false" Markdown="@Model.Description"/><br/>
+                    </div>
+                    <div class="action-links wrapper">
+                        @if(Model.ExtrasLicense.License == "Paid")
+                        {
+                            @if(Model.PurchaseURL != null)
+                            {
+                                <p>You can purchase this beat off-site. Read about how to purchase beats <a href="#">here.</a><br/></p>
+                                <a href="@Model.PurchaseURL " class="btn btn-success rounded-0 text-white">Purchase</a>
+                            }
+                            else
+                            {
+                                <p>You can purchase this beat on-site. Read about how to purchase beats <a href="#">here.</a><br/></p>
+                                <a type="button" data-toggle="modal" data-target="#buydownload" class="btn btn-outline-success rounded-0 text-white">Purchase</a>
+                            }
+                        }
+                        else
+                        {
+                            <a type="button" data-toggle="modal" data-target="#beatdownload" class="btn btn-outline-success rounded-0 text-white">Download</a>
+                        }
+                        <br/>
+                    </div>
+                    <div class="embed wrapper">
+                        <iframe src="@Model.StreamPlatformUrl" scrolling="no" width="100%" height="250" scrollbars="no" frameborder="0"></iframe><br/>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="addthis_inline_share_toolbox"></div>
+                    </div>
+                </div> 
+            </div>          
+        </div>
+    </div>
+</div>
+<form id="download" method="post" action="FreeBeatDownload">
+    <div id="beatdownload" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <h5 class="modal-title"> Subscribe To Download</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Beat Url</label>
+                    <input asp-for="Url" class="form-control" disabled/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="email" class="form-control" placeholder="Email"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input asp-route-id="@Model.Url" type="submit" id="dbutton" value="Download" class="btn btn-outline-success"/>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</form>
+<form method="post" id="purchase" enctype="multipart/form-data" action="BeatDetail">
+    <div id="buydownload" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <h5 class="modal-title"> Send Purchase Request</h5>
+                <br/>
+                <p>Please read on how to make <a href="#"> purchase request</a> before sending request</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Beat Title</label>
+                    <input asp-for="Title" name="id1" class="form-control" disabled/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="Name1" class="form-control" placeholder="Name"/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="email1" class="form-control" placeholder="Email"/>
+                </div>
+                <div class="form-group">
+                    <label class="text-danger text-sm">*Required</label>
+                    <input name="phone" class="form-control" placeholder="Phone"/>
+                </div>
+                <div class="form-group">
+                    <label>Attacment (less than 1mb)</label>
+                    <input type="file" name="ImageFile" id="fileUpload" class="form-control"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-outline-success" asp-route-id="@Model.Url" value="Send"/>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</form>
